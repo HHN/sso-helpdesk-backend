@@ -49,6 +49,7 @@ public class AccountEndpoint extends AbstractService {
 
     @PostMapping("reset")
     public void reset(@RequestBody AccountReset accountReset) {
+        checkParameter(accountReset);
         checkParameter(accountReset.id());
         checkParameter(accountReset.seq());
 
