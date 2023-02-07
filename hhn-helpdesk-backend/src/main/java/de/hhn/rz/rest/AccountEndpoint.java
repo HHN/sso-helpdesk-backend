@@ -3,11 +3,13 @@ package de.hhn.rz.rest;
 
 import de.hhn.rz.AbstractService;
 import de.hhn.rz.dto.Account;
+import de.hhn.rz.dto.AccountReset;
 import de.hhn.rz.exception.InvalidSearchException;
 import de.hhn.rz.services.KeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,11 +48,11 @@ public class AccountEndpoint extends AbstractService {
     }
 
     @PostMapping("reset")
-    public void reset(@RequestParam("id") String id, @RequestParam("seq") String seq) {
-        checkParameter(id);
-        checkParameter(seq);
+    public void reset(@RequestBody AccountReset accountReset) {
+        checkParameter(accountReset.id());
+        checkParameter(accountReset.seq());
 
-        service.resetCredentials(id, seq);
+        service.resetCredentials(accountReset.id(), accountReset.seq());
     }
 
 }
