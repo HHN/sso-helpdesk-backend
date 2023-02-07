@@ -37,6 +37,7 @@ public class KeycloakSpringWebSecurityConfig extends KeycloakWebSecurityConfigur
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("HHN_HELPDESK_ADMIN")
-                .anyRequest().permitAll();
+                .anyRequest().permitAll()
+                .and().csrf().disable();
     }
 }
