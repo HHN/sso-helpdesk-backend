@@ -27,7 +27,7 @@ public class RandomCredentialService extends AbstractService {
         this.encryptor = encryptor;
     }
 
-    public String getPassword() {
-        return encryptor.encrypt(RandomStringUtils.random(passwordLength, 0, allowedChars.length - 1, false, false, allowedChars, random));
+    public String getPassword(String salt) {
+        return encryptor.encrypt(RandomStringUtils.random(passwordLength, 0, allowedChars.length - 1, false, false, allowedChars, random), salt);
     }
 }
