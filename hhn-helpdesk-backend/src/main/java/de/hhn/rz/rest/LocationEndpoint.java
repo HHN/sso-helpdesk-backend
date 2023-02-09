@@ -29,7 +29,7 @@ public class LocationEndpoint extends AbstractService {
     public List<LocationInformation> locations() {
         final List<LocationInformation> info = new ArrayList<>();
         for (Location location : service.getLocations()) {
-            info.add(new LocationInformation(location, service.getFree(location.getId()), service.getTotal(location.getId())));
+            info.add(new LocationInformation(location.getId(), location.getLabel(), service.getFree(location.getId()), service.getTotal(location.getId())));
         }
         return info;
     }
