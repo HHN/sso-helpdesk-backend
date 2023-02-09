@@ -13,4 +13,10 @@ public interface LocationRepository extends CrudRepository<Location, Long> {
     @Query("SELECT l FROM Location l")
     List<Location> getLocations();
 
+    @Query("SELECT COUNT(c) FROM Location l, AccountCredential c WHERE c.location = l AND c.used is NULL AND l.id = (?1)")
+    int getFree(Long id);
+
+    @Query("SELECT COUNT(c) FROM Location l, AccountCredential c WHERE c.location = l AND l.id = (?1)")
+    int getTotal(Long id);
+
 }

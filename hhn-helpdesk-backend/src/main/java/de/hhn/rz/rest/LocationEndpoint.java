@@ -4,12 +4,14 @@ package de.hhn.rz.rest;
 import de.hhn.rz.AbstractService;
 import de.hhn.rz.db.LocationRepository;
 import de.hhn.rz.db.entities.Location;
+import de.hhn.rz.dto.LocationInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,12 @@ public class LocationEndpoint extends AbstractService {
     }
 
     @GetMapping("locations")
-    public List<Location> locations() {
-        return service.getLocations();
-
+    public List<LocationInformation> locations() {
+        final List<LocationInformation> info = new ArrayList<>();
+        for (Location location : service.getLocations()) {
+            info.add(new LocationInformation(location, service.getFree(location.getId()), service.getTotal(location.getId())));
+        }
+        return info;
     }
 
 }
