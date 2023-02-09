@@ -68,7 +68,7 @@ public class AccountEndpoint extends AbstractService {
         checkParameter(accountReset.id());
         checkParameter(accountReset.seq());
 
-        auditLogService.audit(AuditAction.RESET_CREDENTIALS, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq());
+        auditLogService.audit(AuditAction.RESET_CREDENTIALS_TRY, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq());
         service.resetCredentials(accountReset.id(), accountReset.seq());
     }
 
