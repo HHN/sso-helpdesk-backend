@@ -4,6 +4,7 @@ import de.hhn.rz.AbstractService;
 import de.hhn.rz.crypt.Decryptor;
 import de.hhn.rz.db.AccountRepository;
 import de.hhn.rz.db.entities.AccountCredential;
+import de.hhn.rz.exception.SequenceAlreadyUsedException;
 import de.hhn.rz.exception.InvalidSearchException;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class CredentialService extends AbstractService {
         if (ac == null) {
             throw new InvalidSearchException("Could not find credentials for given seq='" + seq + "'.");
         } else {
+            if(ac.getUsed() != null) {
+                throw new SequenceAlreadyUsedException("Sequence was already used: '" + seq +"'.");
+            }
+
             ac.setUsed(LocalDateTime.now());
 
             final CredentialRepresentation cr = new CredentialRepresentation();
