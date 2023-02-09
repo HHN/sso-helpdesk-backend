@@ -68,16 +68,26 @@ public class AccountEndpoint extends AbstractService {
         checkParameter(accountReset.id());
         checkParameter(accountReset.seq());
 
-        auditLogService.audit(AuditAction.RESET_CREDENTIALS_TRY, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq());
-        service.resetCredentials(accountReset.id(), accountReset.seq());
+        try {
+            auditLogService.audit(AuditAction.RESET_CREDENTIALS_TRY, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq());
+            service.resetCredentials(accountReset.id(), accountReset.seq());
+        } catch (Exception e) {
+            auditLogService.audit(AuditAction.RESET_CREDENTIALS_FAILED, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq(), "ex=" + e.getLocalizedMessage());
+            throw e;
+        }
     }
 
     @PostMapping("create")
     public @ResponseBody byte[] create(@RequestBody AccountCreate accountCreate) {
         checkParameter(accountCreate);
         checkParameter(accountCreate.location());
-        final int amount = (accountCreate.amount() == null || accountCreate.amount() <= 0 || accountCreate.amount() >= 50) ? 50 : accountCreate.amount();
-        auditLogService.audit(AuditAction.CREATE, "amount=" + accountCreate.amount(), "location=" + accountCreate.location());
-        return accountCredentialService.createCredentials(new AccountCreate(accountCreate.location(), amount));
+        try {
+            final int amount = (accountCreate.amount() == null || accountCreate.amount() <= 0 || accountCreate.amount() >= 50) ? 50 : accountCreate.amount();
+            auditLogService.audit(AuditAction.CREATE, "amount=" + accountCreate.amount(), "location=" + accountCreate.location());
+            return accountCredentialService.createCredentials(new AccountCreate(accountCreate.location(), amount));
+        }catch (Exception e) {
+            auditLogService.audit(AuditAction.CREATE_FAILED, "amount=" + accountCreate.amount(), "location=" + accountCreate.location(), "ex=" + e.getLocalizedMessage());
+            throw e;
+        }
     }
 }
