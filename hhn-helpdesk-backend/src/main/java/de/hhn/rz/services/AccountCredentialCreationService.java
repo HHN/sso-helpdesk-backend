@@ -63,8 +63,8 @@ public class AccountCredentialCreationService extends AbstractService {
     }
 
     private String getRandomString() {
-        return RandomStringUtils.random(passwordLength, 0, allowedChars.length - 1,
-                false, false, allowedChars, random);
+        return RandomStringUtils.random(passwordLength-5, 0, allowedChars.length - 1,
+                false, false, allowedChars, random) + "aB!1#";
     }
 
     private String encryptPassword(String password, String salt, byte[] iv) {
