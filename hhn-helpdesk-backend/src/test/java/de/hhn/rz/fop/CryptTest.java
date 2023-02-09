@@ -19,7 +19,7 @@ public class CryptTest {
         Encryptor encryptor = new Encryptor("abc");
         Decryptor decryptor = new Decryptor("abc");
 
-        String c = encryptor.encrypt("test", salt, iv);
+        String c = encryptor.encrypt("password-test", salt, iv);
 
         System.out.println(c);
 

@@ -11,7 +11,7 @@ public interface AccountRepository extends CrudRepository<AccountCredential, Lon
     @Query("SELECT a FROM AccountCredential a WHERE a.seq = (?1)")
     AccountCredential getBySeq(String seq);
 
-    @Query("SELECT EXISTS (SELECT a FROM AccountCredential  a WHERE a.seq = (?1))")
+    @Query(nativeQuery = true, value = "SELECT EXISTS (SELECT a FROM account_credential  a WHERE a.seq = (?1))")
     boolean existsBySeq(String seq);
 
 }

@@ -63,7 +63,7 @@ public record FopAccountCredentials(List<FopAccountElement> elements) {
                 handler.element(FopConstants.HHN_QR_CODE, e.base64());
                 handler.element(FopConstants.HHN_SEQ_NUMBER, e.credential().getSeq());
                 handler.element(FopConstants.HHN_PASSWORD, e.credential().getPassword());
-                handler.startElement(FopConstants.HHN_ACCOUNT_ELEMENT);
+                handler.endElement(FopConstants.HHN_ACCOUNT_ELEMENT);
             }
 
 
