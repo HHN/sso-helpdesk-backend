@@ -25,6 +25,7 @@ public class AuditLogService extends AbstractService {
         ale.setAction(auditAction);
         ale.setParams(Arrays.toString(params));
         ale.setActor(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        auditLogRepository.save(ale);
     }
 
 }
