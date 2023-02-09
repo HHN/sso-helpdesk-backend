@@ -3,6 +3,8 @@ import { User } from '@/models/User';
 import { defineStore } from 'pinia'
 import { Location } from '@/models/Location';
 import { AuditEntry } from '@/models/AuditEntry';
+import { nullUser, UserOrNull } from '@/models/UserOrNull';
+
 
 export const useAppStore = defineStore('app', {
   state: () => ({
@@ -12,7 +14,12 @@ export const useAppStore = defineStore('app', {
     searchQuery: "",
     locationList: [] as Location[],
     auditList: [] as AuditEntry[],
-    isCreatingCredentials: false,
+    isWaiting: false,
+    currentResetUser: nullUser,
+    showResetDialog: false,
+    showAlertMessage: false,
+    alertMessage: "Test",
+    alertMessageType: "success"
   }),
 
   actions: {

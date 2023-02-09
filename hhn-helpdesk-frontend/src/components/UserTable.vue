@@ -45,17 +45,17 @@
 </template>
 <script lang="ts" setup>
 import { User } from '@/models/User';
+import { UserOrNull } from '@/models/UserOrNull';
 import { resetCredential } from '@/services/UserService';
 import { useAppStore } from '@/store/app';
 
 const appStore = useAppStore();
 
 function openResetDialog(user: User) {
-    const seq = prompt("Laufnummer?");
-    console.log(seq);
-    if (seq != null) {
-        resetCredential(user.keycloakId, seq);
-    }
+    const uon = new UserOrNull();
+    uon.content = user;
+    appStore.currentResetUser = uon;
+    appStore.showResetDialog = true;
 
 }
 
