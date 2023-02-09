@@ -38,7 +38,7 @@ public class CredentialService extends AbstractService {
 
             final CredentialRepresentation cr = new CredentialRepresentation();
             cr.setTemporary(true);
-            cr.setValue(decryptor.decrypt(ac.getPassword(), ac.getSalt()));
+            cr.setValue(decryptor.decrypt(ac.getPassword(), ac.getSalt(), ac.getIv()));
 
             accountRepository.save(ac);
 

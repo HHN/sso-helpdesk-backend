@@ -36,12 +36,6 @@ public abstract class AbstractCrypt extends AbstractService {
         return secret;
     }
 
-    protected IvParameterSpec generateIv() {
-        byte[] iv = new byte[16];
-        new SecureRandom().nextBytes(iv);
-        return new IvParameterSpec(iv);
-    }
-
     protected String encryptPasswordBased(String plainText, SecretKey key, IvParameterSpec iv)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException {

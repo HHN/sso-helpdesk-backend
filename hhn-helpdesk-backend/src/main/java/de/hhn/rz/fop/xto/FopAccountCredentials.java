@@ -1,15 +1,15 @@
 package de.hhn.rz.fop.xto;
 
-import de.hhn.rz.db.entities.AccountCredential;
-import de.hhn.rz.fop.FopJobConstants;
+import de.hhn.rz.fop.FopConstants;
 import de.hhn.rz.fop.asf.AbstractObjectReader;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
+import java.util.List;
 
-public record FopAccountXTO(AccountCredential credential, String base64) {
+public record FopAccountCredentials(List<FopAccountElement> elements) {
 
     public Source asSource() {
         return new SAXSource(new AccountXMLReader(), new JobInputSource(this));
@@ -17,13 +17,13 @@ public record FopAccountXTO(AccountCredential credential, String base64) {
 
     private static class JobInputSource extends InputSource {
 
-        private final FopAccountXTO account;
+        private final FopAccountCredentials account;
 
-        public JobInputSource(FopAccountXTO job) {
+        public JobInputSource(FopAccountCredentials job) {
             this.account = job;
         }
 
-        public FopAccountXTO getAccount() {
+        public FopAccountCredentials getAccount() {
             return account;
         }
 
@@ -42,8 +42,8 @@ public record FopAccountXTO(AccountCredential credential, String base64) {
             }
         }
 
-        private void parse(FopAccountXTO account) throws SAXException {
-            if (account == null) {
+        private void parse(FopAccountCredentials accounts) throws SAXException {
+            if (accounts == null) {
                 throw new IllegalArgumentException("Parameter account must not be null");
             }
             if (handler == null) {
@@ -51,16 +51,22 @@ public record FopAccountXTO(AccountCredential credential, String base64) {
             }
 
             handler.startDocument();
-            toXML(account);
+            handler.startElement(FopConstants.HHN_ROOT);
+            toXML(accounts);
+            handler.endElement(FopConstants.HHN_ROOT);
             handler.endDocument();
         }
 
-        private void toXML(FopAccountXTO fopJob) throws SAXException {
-            handler.startElement(FopJobConstants.HHN_ROOT);
-            handler.element(FopJobConstants.HHN_QR_CODE, fopJob.base64);
-            handler.element(FopJobConstants.HHN_SEQ_NUMBER, fopJob.credential.getSeq());
-            handler.element(FopJobConstants.HHN_PASSWORD, fopJob.credential.getPassword());
-            handler.endElement(FopJobConstants.HHN_ROOT);
+        private void toXML(FopAccountCredentials accounts) throws SAXException {
+            for(FopAccountElement e : accounts.elements) {
+                handler.startElement(FopConstants.HHN_ACCOUNT_ELEMENT);
+                handler.element(FopConstants.HHN_QR_CODE, e.base64());
+                handler.element(FopConstants.HHN_SEQ_NUMBER, e.credential().getSeq());
+                handler.element(FopConstants.HHN_PASSWORD, e.credential().getPassword());
+                handler.startElement(FopConstants.HHN_ACCOUNT_ELEMENT);
+            }
+
+
         }
 
     }

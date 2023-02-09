@@ -1,11 +1,13 @@
 package de.hhn.rz.db.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -29,7 +31,13 @@ public class AccountCredential {
     private LocalDateTime used;
 
     @Column(nullable = false)
-    private String salt = UUID.randomUUID().toString();
+    private String salt;
+
+    @Column(nullable = false)
+    private byte[] iv;
+
+    @ManyToOne(targetEntity = Location.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    private Location location;
 
     public String getPassword() {
         return password;
@@ -65,5 +73,25 @@ public class AccountCredential {
 
     public String getSalt() {
         return salt;
+    }
+
+    public byte[] getIv() {
+        return iv;
+    }
+
+    public void setIv(byte[] iv) {
+        this.iv = iv;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

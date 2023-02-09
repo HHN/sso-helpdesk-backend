@@ -56,7 +56,7 @@
                         Guten Tag,
                     </fo:block>
                     <fo:block space-after="10mm">
-                        Ihr neues Initialpasswort lautet:
+                        Ihr neues initiales Passwort lautet:
                     </fo:block>
                     <fo:block font-size="24pt">
                         <xsl:if test="normalize-space(hhn-password) != ''">
@@ -70,7 +70,7 @@
                         </xsl:if>
                     </fo:block>
                     <fo:block space-after="1cm">
-                        Zum Ändern des Initialpassworts gehen Sie bitte auf login.hs-heilbronn.de und folgen Sie den dortigen Anweisungen. Verwenden Sie Ihren bekannten Benutzernamen und das oben abgedruckte Passwort für Ihren ersten Login.
+                        Zum Ändern des initialen Passworts gehen Sie bitte auf login.hs-heilbronn.de und folgen Sie den dortigen Anweisungen. Verwenden Sie Ihren bekannten Benutzernamen und das oben abgedruckte Passwort für Ihren ersten Login.
                     </fo:block>
                     <fo:block>
                         Viele Grüße

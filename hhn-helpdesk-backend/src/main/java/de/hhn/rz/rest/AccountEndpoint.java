@@ -3,8 +3,10 @@ package de.hhn.rz.rest;
 
 import de.hhn.rz.AbstractService;
 import de.hhn.rz.dto.Account;
+import de.hhn.rz.dto.AccountCreate;
 import de.hhn.rz.dto.AccountReset;
 import de.hhn.rz.exception.InvalidSearchException;
+import de.hhn.rz.services.AccountCredentialService;
 import de.hhn.rz.services.KeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,9 +27,11 @@ import java.util.List;
 public class AccountEndpoint extends AbstractService {
 
     private final KeycloakService service;
+    private final AccountCredentialService accountCredentialService;
 
-    public AccountEndpoint(@Autowired KeycloakService service) {
+    public AccountEndpoint(@Autowired KeycloakService service, @Autowired AccountCredentialService accountCredentialService) {
         this.service = service;
+        this.accountCredentialService = accountCredentialService;
     }
 
     @GetMapping("users")
@@ -59,4 +64,11 @@ public class AccountEndpoint extends AbstractService {
         service.resetCredentials(accountReset.id(), accountReset.seq());
     }
 
+    @PostMapping("create")
+    public @ResponseBody byte[] create(@RequestBody AccountCreate accountCreate) {
+        checkParameter(accountCreate);
+        checkParameter(accountCreate.location());
+        final int amount = (accountCreate.amount() == null || accountCreate.amount() <= 0) ? 10 : accountCreate.amount();
+        return accountCredentialService.createCredentials(new AccountCreate(accountCreate.location(), amount));
+    }
 }
