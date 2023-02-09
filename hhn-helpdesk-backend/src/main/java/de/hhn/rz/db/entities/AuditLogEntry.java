@@ -20,7 +20,7 @@ public class AuditLogEntry {
     @Column(nullable = false)
     private LocalDateTime time = LocalDateTime.now();
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 1024, nullable = false)
     private String actor;
 
     @Column(nullable = false)

@@ -2,11 +2,13 @@ package de.hhn.rz.rest;
 
 
 import de.hhn.rz.AbstractService;
+import de.hhn.rz.db.entities.AuditAction;
 import de.hhn.rz.dto.Account;
 import de.hhn.rz.dto.AccountCreate;
 import de.hhn.rz.dto.AccountReset;
 import de.hhn.rz.exception.InvalidSearchException;
 import de.hhn.rz.services.AccountCredentialService;
+import de.hhn.rz.services.AuditLogService;
 import de.hhn.rz.services.KeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -28,10 +30,14 @@ public class AccountEndpoint extends AbstractService {
 
     private final KeycloakService service;
     private final AccountCredentialService accountCredentialService;
+    private final AuditLogService auditLogService;
 
-    public AccountEndpoint(@Autowired KeycloakService service, @Autowired AccountCredentialService accountCredentialService) {
+    public AccountEndpoint(@Autowired KeycloakService service,
+                           @Autowired AccountCredentialService accountCredentialService,
+                           @Autowired AuditLogService auditLogService) {
         this.service = service;
         this.accountCredentialService = accountCredentialService;
+        this.auditLogService = auditLogService;
     }
 
     @GetMapping("users")
@@ -51,6 +57,7 @@ public class AccountEndpoint extends AbstractService {
             throw new InvalidSearchException("'q' must not be NULL or empty.");
         }
 
+        auditLogService.audit(AuditAction.SEARCH, "first=" + first, "max=" + max, "q=" + q);
         return service.findAccounts(first, max, q.trim());
 
     }
@@ -61,6 +68,7 @@ public class AccountEndpoint extends AbstractService {
         checkParameter(accountReset.id());
         checkParameter(accountReset.seq());
 
+        auditLogService.audit(AuditAction.RESET_CREDENTIALS, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq());
         service.resetCredentials(accountReset.id(), accountReset.seq());
     }
 
@@ -69,6 +77,7 @@ public class AccountEndpoint extends AbstractService {
         checkParameter(accountCreate);
         checkParameter(accountCreate.location());
         final int amount = (accountCreate.amount() == null || accountCreate.amount() <= 0) ? 10 : accountCreate.amount();
+        auditLogService.audit(AuditAction.CREATE, "amount=" + accountCreate.amount(), "location=" + accountCreate.location());
         return accountCredentialService.createCredentials(new AccountCreate(accountCreate.location(), amount));
     }
 }
