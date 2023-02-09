@@ -1,4 +1,4 @@
-package de.hhn.rz.fop;
+package de.hhn.rz.crypt;
 
 import de.hhn.rz.crypt.Decryptor;
 import de.hhn.rz.crypt.Encryptor;
