@@ -8,7 +8,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.keycloak.KeycloakPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -43,10 +42,13 @@ public class AuditLogService extends AbstractService {
     }
 
     private String getPrincipalIp() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-                .getRequest();
 
-        return request.getRemoteAddr();
+        final Object o = RequestContextHolder.currentRequestAttributes();
+
+        if(o instanceof ServletRequestAttributes requestAttributes) {
+            return requestAttributes.getRequest().getRemoteAddr();
+        }
+        return "N/A";
     }
 
 }
