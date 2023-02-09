@@ -1,4 +1,4 @@
 package de.hhn.rz.dto;
 
-public record AccountCreate(String location, Integer amount) {
+public record AccountCreate(Long location, Integer amount) {
 }

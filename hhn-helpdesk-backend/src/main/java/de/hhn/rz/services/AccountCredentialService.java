@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountCredentialService extends AbstractService {
@@ -30,16 +31,11 @@ public class AccountCredentialService extends AbstractService {
     public byte[] createCredentials(AccountCreate accountCreate) {
         checkParameter(accountCreate);
 
-        final Location location = locationRepository.getByLabel(accountCreate.location());
-
-        if (location == null) {
-            throw new IllegalArgumentException("Given location does NOT exist: " + location);
-        }
-
+        final Optional<Location> location = locationRepository.findById(accountCreate.location());
         final List<AccountCredential> list = new ArrayList<>();
 
         for (int i = 0; i < accountCreate.amount(); i++) {
-            list.add(accountCredentialCreationService.createCredential(location));
+            list.add(accountCredentialCreationService.createCredential(location.orElseThrow()));
         }
 
         return xslTransformerService.process(list);
