@@ -1,8 +1,10 @@
 <template>
-    <h1>Audit</h1>
+  <audit-table />
   </template>
-  
+
   <script lang="ts" setup>
-    //import HelloWorld from '@/components/HelloWorld.vue'
+
+  import AuditTable from '@/components/AuditTable.vue';
+
+
   </script>
-  

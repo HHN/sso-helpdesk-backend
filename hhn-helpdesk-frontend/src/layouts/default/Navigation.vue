@@ -1,7 +1,6 @@
 <template>
     <v-navigation-drawer
     v-if="appStore.navigationDrawerOpen"
-
     permanent
 
       >
@@ -9,7 +8,7 @@
           nav
         >
           <v-list-item prepend-icon="mdi-account" title="Benutzer" value="users" :to="'users'"></v-list-item>
-          <v-list-item prepend-icon="mdi-email-newsletter" title="Briefe erzeugen" value="letters" :to="'letters'"></v-list-item>
+          <v-list-item prepend-icon="mdi-email-newsletter" title="Zugangsdaten erzeugen" value="credentials" :to="'credentials'"></v-list-item>
           <v-list-item prepend-icon="mdi-text-box-check" title="Auditlog" value="auditlog" :to="'audit'"></v-list-item>
           <v-list-item prepend-icon="mdi-help" title="Hilfe" value="help" :to="'help'"></v-list-item>
           <v-list-item prepend-icon="mdi-format-pilcrow-arrow-right" title="Impressum" value="imprint" :to="'imprint'"></v-list-item>

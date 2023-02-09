@@ -18,20 +18,20 @@
     import { ref } from 'vue';
 
     const query = ref<string>();
-    
+
     function handleSearchSubmit() {
         useAppStore().searchQuery = query.value!; // todo "!"
         console.log(query.value);
 
         // perform search
-        fetchUsers("test");
+        fetchUsers(query.value!);
     }
 
     function handleUpdatedText() {
         console.log("ignore handleUpdatedText. Press the search button to search");
     }
 
-    
+
 
 
 </script>

@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
 @Service
@@ -27,7 +30,7 @@ public class AuditLogService extends AbstractService {
         final AuditLogEntry ale = new AuditLogEntry();
         ale.setAction(auditAction);
 
-        ArrayUtils.insert(0, params == null ? new String[1] : params, getPrincipalIp());
+        params = ArrayUtils.insert(0, params, "ip=" + getPrincipalIp());
 
         ale.setParams(Arrays.toString(params));
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -40,12 +43,10 @@ public class AuditLogService extends AbstractService {
     }
 
     private String getPrincipalIp() {
-        Object details =
-                SecurityContextHolder.getContext().getAuthentication().getDetails();
-        if (details instanceof WebAuthenticationDetails d) {
-            return d.getRemoteAddress();
-        }
-        return "N/A";
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+
+        return request.getRemoteAddr();
     }
 
 }

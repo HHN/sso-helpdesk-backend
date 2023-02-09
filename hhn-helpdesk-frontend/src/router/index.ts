@@ -20,9 +20,9 @@ const routes = [
         component: () => import('@/views/Users.vue')
       },
       {
-        path: 'letters',
-        name: 'letters',
-        component: () => import('@/views/Letters.vue')
+        path: 'credentials',
+        name: 'credentials',
+        component: () => import('@/views/Credentials.vue')
       },
       {
         path: 'audit',
