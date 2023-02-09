@@ -4,6 +4,7 @@ import de.hhn.rz.AbstractService;
 import de.hhn.rz.db.AuditLogRepository;
 import de.hhn.rz.db.entities.AuditAction;
 import de.hhn.rz.db.entities.AuditLogEntry;
+import org.keycloak.KeycloakPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,12 @@ public class AuditLogService extends AbstractService {
         final AuditLogEntry ale = new AuditLogEntry();
         ale.setAction(auditAction);
         ale.setParams(Arrays.toString(params));
-        ale.setActor(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof KeycloakPrincipal<?> kp) {
+            ale.setActor(kp.getKeycloakSecurityContext().getIdToken().getPreferredUsername());
+        } else {
+            ale.setActor(principal.toString());
+        }
         auditLogRepository.save(ale);
     }
 
