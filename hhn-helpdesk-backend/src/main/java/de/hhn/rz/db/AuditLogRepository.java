@@ -11,6 +11,6 @@ import java.util.List;
 public interface AuditLogRepository extends CrudRepository<AuditLogEntry, Long> {
 
     //XXX Might be pageable one day, if we encounter perf issues
-    @Query("SELECT l FROM AuditLogEntry l")
+    @Query("SELECT l FROM AuditLogEntry l order by l.id desc")
     List<AuditLogEntry> getAudits();
 }
