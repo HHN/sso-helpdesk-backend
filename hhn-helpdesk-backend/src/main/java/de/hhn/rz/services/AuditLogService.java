@@ -4,9 +4,11 @@ import de.hhn.rz.AbstractService;
 import de.hhn.rz.db.AuditLogRepository;
 import de.hhn.rz.db.entities.AuditAction;
 import de.hhn.rz.db.entities.AuditLogEntry;
+import org.apache.commons.lang3.ArrayUtils;
 import org.keycloak.KeycloakPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -24,6 +26,9 @@ public class AuditLogService extends AbstractService {
         checkParameter(auditAction);
         final AuditLogEntry ale = new AuditLogEntry();
         ale.setAction(auditAction);
+
+        ArrayUtils.insert(0, params == null ? new String[1] : params, getPrincipalIp());
+
         ale.setParams(Arrays.toString(params));
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof KeycloakPrincipal<?> kp) {
@@ -32,6 +37,15 @@ public class AuditLogService extends AbstractService {
             ale.setActor(principal.toString());
         }
         auditLogRepository.save(ale);
+    }
+
+    private String getPrincipalIp() {
+        Object details =
+                SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if (details instanceof WebAuthenticationDetails d) {
+            return d.getRemoteAddress();
+        }
+        return "N/A";
     }
 
 }
