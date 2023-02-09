@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useAppStore } from "@/store/app";
 import download from 'downloadjs';
+import { fetchLocations } from "./LocationService";
 
 
 const appStore = useAppStore();
@@ -15,6 +16,7 @@ export function createCredentials(locationId: number, amount: number) : void {
         console.log("create credentials status code: "  +response.status.valueOf());
         const content = response.headers['content-type'];
         download(response.data, "credentials.pdf", content);
+        fetchLocations();
         
     });
 }

@@ -4,30 +4,16 @@
       max-width="600px"
     >
       <v-card>
-        <v-btn @click="init">init</v-btn>
-        <!--<v-row>
-            <v-col cols="6">
-                          
-            </v-col>
-            <v-divider vertical></v-divider>
-            <v-col cols="6">
-                hallo
-
-</v-col>
-<v-divider vertical></v-divider>
-
-        </v-row>-->
         <div id="reader"></div>
         <v-row>
             
         </v-row>
         <v-row>
             <v-text-field
-        density="compact"
         variant="solo"
         v-model="seq"
         label="Laufnummer"
-        append-inner-icon="mdi-magnify"
+        append-inner-icon="mdi-arrow-right-bold-outline"
         single-line
         hide-details
         @click:append-inner="handleSeqSubmit"
@@ -52,7 +38,7 @@ import { resetCredential } from "@/services/UserService";
 import { useAppStore } from "@/store/app";
 import {Html5QrcodeScanner} from "html5-qrcode"
 
-import { onBeforeUnmount, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
 const appStore = useAppStore();
 
@@ -91,6 +77,10 @@ function init() {
   /* verbose= */ false);
 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 }
+
+onMounted(() => {
+    init();
+});
 
 
 onBeforeUnmount(() => {

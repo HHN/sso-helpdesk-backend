@@ -29,6 +29,16 @@ const routes = [
         name: 'audit',
         component: () => import('@/views/Audit.vue')
       },
+      {
+        path: 'help',
+        name: 'help',
+        component: () => import('@/views/Help.vue')
+      },
+      {
+        path: 'imprint',
+        name: 'imprint',
+        component: () => import('@/views/Imprint.vue')
+      },
     ],
   },
 ]

@@ -28,17 +28,25 @@ export function resetCredential(keycloakId: string, seq: string) : void {
         }).then(response => {
             appStore.isWaiting = false;
             appStore.showResetDialog = false;
+
+
     
             if (response.status.valueOf() == 200) {
-                showAlertMessage("successfully reset credentials", "success");
+                showAlertMessage("Zugangsdaten zurückgesetzt", "success");
+            } else if (response.status.valueOf() == 410) {
+                showAlertMessage("Laufnummer bereits verwendet", "error");
             } else {
-                showAlertMessage("error while resetting credentials", "error");
-    
+                showAlertMessage("Zugangsdaten konnten nicht zurückgesetzt werden", "error");
             }
         }).catch(error => {
             appStore.isWaiting = false;
             appStore.showResetDialog = false;
-            showAlertMessage("error while resetting credentials", "error");
+            console.log(error);
+            if (error.response.status.valueOf() == 410) {
+                showAlertMessage("Laufnummer bereits verwendet", "error");
+            } else {
+                showAlertMessage("Zugangsdaten konnten nicht zurückgesetzt werden", "error");
+            }
         });
     }
    
