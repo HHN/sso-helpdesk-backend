@@ -76,7 +76,7 @@ public class AccountEndpoint extends AbstractService {
     public @ResponseBody byte[] create(@RequestBody AccountCreate accountCreate) {
         checkParameter(accountCreate);
         checkParameter(accountCreate.location());
-        final int amount = (accountCreate.amount() == null || accountCreate.amount() <= 0) ? 10 : accountCreate.amount();
+        final int amount = (accountCreate.amount() == null || accountCreate.amount() <= 0 || accountCreate.amount() >= 50) ? 50 : accountCreate.amount();
         auditLogService.audit(AuditAction.CREATE, "amount=" + accountCreate.amount(), "location=" + accountCreate.location());
         return accountCredentialService.createCredentials(new AccountCreate(accountCreate.location(), amount));
     }
