@@ -23,11 +23,9 @@ public class AccountCredential {
     private String seq;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime created = LocalDateTime.now();
 
     @Column(nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime used;
 
     @Column(nullable = false)

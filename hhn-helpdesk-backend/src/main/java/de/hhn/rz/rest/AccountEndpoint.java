@@ -7,6 +7,8 @@ import de.hhn.rz.dto.AccountReset;
 import de.hhn.rz.exception.InvalidSearchException;
 import de.hhn.rz.services.KeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
 @RequestMapping("/admin/rest/")
 public class AccountEndpoint extends AbstractService {
 
@@ -28,8 +31,8 @@ public class AccountEndpoint extends AbstractService {
 
     @GetMapping("users")
     public List<Account> users(
-            @RequestParam("first") Integer first,
-            @RequestParam("max") Integer max,
+            @Nullable @RequestParam("first") Integer first,
+            @Nullable @RequestParam("max") Integer max,
             @RequestParam("q") String q) {
 
         if (first == null) {

@@ -20,7 +20,7 @@ public class QRGenerator extends AbstractService {
     private final Integer width;
     private final Integer height;
 
-    public QRGenerator(@Value("${hhn.fop.qr.width}") Integer width, @Value("${hhn.fop.base64.height") Integer height) {
+    public QRGenerator(@Value("${hhn.fop.qr.width}") Integer width, @Value("${hhn.fop.qr.height}") Integer height) {
         this.width = width;
         this.height = height;
     }
@@ -38,7 +38,7 @@ public class QRGenerator extends AbstractService {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             QRCode.from(credential.getSeq())
                     .withSize(width, height)
-                    .withHint(EncodeHintType.MARGIN, 1)
+                    .withHint(EncodeHintType.MARGIN, 0)
                     //Q => 25% error correction level
                     .withErrorCorrection(ErrorCorrectionLevel.Q)
                     .svg(baos);

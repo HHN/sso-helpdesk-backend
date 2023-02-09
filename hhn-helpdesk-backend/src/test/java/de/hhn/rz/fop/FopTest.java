@@ -29,7 +29,7 @@ public class FopTest {
 
         byte[] result = xslTransformerService.process(ac);
 
-        Files.write(Paths.get("test.pdf"), result, StandardOpenOption.CREATE_NEW);
+        Files.write(Paths.get("test-"+ System.currentTimeMillis() + ".pdf"), result, StandardOpenOption.CREATE_NEW);
 
     }
 }

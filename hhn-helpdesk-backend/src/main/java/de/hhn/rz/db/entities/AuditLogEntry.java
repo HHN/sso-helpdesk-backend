@@ -18,7 +18,6 @@ public class AuditLogEntry {
     private Long id;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime time = LocalDateTime.now();
 
     @Column(length = 255, nullable = false)
