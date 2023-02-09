@@ -1,6 +1,7 @@
 import { User } from "@/models/User";
 import { useAppStore } from "@/store/app";
 import axios from "axios";
+import { showAlertMessage } from "./AlertMessageService";
 
 const appStore = useAppStore();
 
@@ -19,15 +20,28 @@ export function fetchUsers(searchQuery: string) : void {
 }
 
 export function resetCredential(keycloakId: string, seq: string) : void {
-    axios.post("/admin/rest/reset", {
-        id: keycloakId,
-        seq: seq
-    }).then(response => {
-        if (response.status.valueOf() == 200) {
-            alert("successfully reset credentials");
-        } else {
-            alert("error while resetting credentials");
-
-        }
-    });
+    if (!appStore.isWaiting) {
+        appStore.isWaiting = true;
+        axios.post("/admin/rest/reset", {
+            id: keycloakId,
+            seq: seq
+        }).then(response => {
+            appStore.isWaiting = false;
+            appStore.showResetDialog = false;
+    
+            if (response.status.valueOf() == 200) {
+                showAlertMessage("successfully reset credentials", "success");
+            } else {
+                showAlertMessage("error while resetting credentials", "error");
+    
+            }
+        }).catch(error => {
+            appStore.isWaiting = false;
+            appStore.showResetDialog = false;
+            showAlertMessage("error while resetting credentials", "error");
+        });
+    }
+   
 }
+
+

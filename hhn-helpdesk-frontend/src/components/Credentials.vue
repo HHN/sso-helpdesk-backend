@@ -7,8 +7,8 @@
     </v-form>
 
 
-    <v-overlay v-model="appStore.isCreatingCredentials" >
-        <v-progress-circular indeterminate :size="128" :width="12" class="align-center justify-center" />
+    <v-overlay v-model="appStore.isCreatingCredentials" class="align-center justify-center" >
+        <v-progress-circular indeterminate :size="128" :width="12"  />
     </v-overlay>
 
 </template>
