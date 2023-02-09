@@ -5,7 +5,7 @@
     <xsl:output method="xml" version="1.0" omit-xml-declaration="no" indent="yes"/>
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:variable name="now" select="date:date-time()"/>
-    <xsl:variable name="pageMargin" select="'1cm'"/>
+    <xsl:variable name="pageMargin" select="'2cm'"/>
     <xsl:variable name="lineMargin"
                   select="'4mm'"/>
     <xsl:template match="hhn-account">
@@ -17,11 +17,39 @@
                     <fo:region-body/>
                 </fo:simple-page-master>
             </fo:layout-master-set>
-                <xsl:for-each select="hhn-account-element">
-                    <fo:page-sequence master-reference="simpleA4">
+            <xsl:for-each select="hhn-account-element">
+
+                <fo:page-sequence master-reference="simpleA4">
 
                     <fo:flow flow-name="xsl-region-body">
-                        <fo:block space-after="30mm"/>
+
+                        <fo:block font-family="Arial" font-size="10pt" font-style="normal" font-weight="normal"
+                                  line-height="14pt" text-decoration="none">
+                            <fo:table table-layout="fixed" space-before.optimum="1cm" space-after.optimum="2pt">
+                                <fo:table-column column-width="13.7cm"/>
+                                <fo:table-column column-width="4cm"/>
+                                <fo:table-body>
+                                    <fo:table-row>
+                                        <fo:table-cell number-columns-spanned="1" padding-top="0.0pt"
+                                                       padding-bottom="8pt"
+                                                       display-align="center">
+                                            <fo:block span="none" font-family="Arial" text-align="left">
+                                            </fo:block>
+                                        </fo:table-cell>
+                                        <fo:table-cell number-columns-spanned="1" padding-top="4.0pt"
+                                                       padding-bottom="8pt">
+                                            <fo:block>
+                                                <fo:external-graphic content-height="scale-to-fit"
+                                                                     src="classpath:img/hhn_logo.png"
+                                                                     content-width="4cm"/>
+                                            </fo:block>
+                                        </fo:table-cell>
+                                    </fo:table-row>
+                                </fo:table-body>
+                            </fo:table>
+                        </fo:block>
+
+                        <fo:block space-after="10mm"/>
                         <fo:block font-size="6pt" space-after="5mm">
                             Rechenzentrum - Hochschule Heilbronn - 74081 Heilbronn
                         </fo:block>
@@ -42,23 +70,29 @@
                                     <fo:table-cell>
                                         <fo:block>
                                             <fo:external-graphic content-width="5cm" content-height="5cm"
-                                                                 src="url({hhn-base64-code})" />
+                                                                 src="url({hhn-base64-code})"/>
                                         </fo:block>
                                     </fo:table-cell>
                                 </fo:table-row>
                             </fo:table-body>
                         </fo:table>
                         <fo:block font-size="14pt" space-after="5mm">
-                            Betrifft: Neues initiales Passwort für Ihren Nutzeraccount
+                            Betrifft: Initiales Passwort für Ihren Hochschulaccount
                         </fo:block>
 
-                        <fo:block>
-                            Guten Tag,
+                        <fo:block space-after="0.5cm">
+                            Hallo,
                         </fo:block>
-                        <fo:block space-after="10mm">
-                            Ihr neues initiales Passwort lautet:
+                        <fo:block space-after="0.5cm" text-align="justify">
+                            wir freuen uns, Ihnen mitteilen zu können, dass wir das Passwort für Ihren Hochschulaccount
+                            erfolgreich zurückgesetzt haben.
+                            Bitte bewahren Sie dieses Passwort sicher auf und ändern Sie es zeitnah unter
+                            https://login.hs-heilbronn.de
+
+                            Ihr neues Passwort lautet:
+
                         </fo:block>
-                        <fo:block font-size="24pt">
+                        <fo:block font-size="24pt" text-align="center" space-after="0.5cm">
                             <xsl:if test="normalize-space(hhn-password) != ''">
                                 <fo:block margin-bottom="{$lineMargin}">
                                     <fo:inline-container inline-progression-dimension="11cm" vertical-align="top">
@@ -69,34 +103,35 @@
                                 </fo:block>
                             </xsl:if>
                         </fo:block>
-                        <fo:block space-after="1cm">
-                            Zum Ändern des initialen Passworts gehen Sie bitte auf login.hs-heilbronn.de und folgen Sie den dortigen Anweisungen. Verwenden Sie Ihren bekannten Benutzernamen und das oben abgedruckte Passwort für Ihren ersten Login.
+                        <fo:block space-after="0.5cm" text-align="justify">
+
+                            Bitte besuchen Sie https://login.hs-heilbronn.de und melden Sie sich mit Ihrem Benutzernamen
+                            und dem initialen Passwort an.
+                            Sobald Sie angemeldet sind, werden Sie aufgefordert, ein neues, sicheres Passwort zu
+                            erstellen.
+                        </fo:block>
+
+                        <fo:block space-after="0.5cm" text-align="justify">
+                            Wir empfehlen Ihnen, ein Passwort zu wählen, das mindestens zwölf Zeichen lang ist und
+                            sowohl Buchstaben als auch Zahlen sowie Sonderzeichen enthält.
+                            Verwenden Sie keine einfachen Wörter oder Informationen, die einfach zu erraten sind (z. B.
+                            Ihren Namen oder Geburtstag).
+                        </fo:block>
+
+                        <fo:block space-after="1.5cm" text-align="justify">
+                            Wenn Sie Fragen oder Probleme beim Zugriff auf Ihr Konto haben, wenden Sie sich bitte an
+                            benutzerverwaltung@hs-heilbronn.de
                         </fo:block>
                         <fo:block>
                             Viele Grüße
                         </fo:block>
                         <fo:block>
-                            Das Team der Benutzerverwaltung des Rechenzentrums
-                        </fo:block>
-                        <fo:block font-size="16pt">
-                            <fo:block>
-
-                                <xsl:if test="normalize-space(hhn-seq-number) != ''">
-                                    <fo:block margin-bottom="{$lineMargin}">
-                                        <fo:inline-container inline-progression-dimension="11cm" vertical-align="top">
-                                            <fo:block>
-                                                <xsl:value-of select="hhn-seq-number"/>
-                                            </fo:block>
-                                        </fo:inline-container>
-                                    </fo:block>
-                                </xsl:if>
-
-                            </fo:block>
+                            Ihre Benutzerverwaltung des Rechenzentrums
                         </fo:block>
                     </fo:flow>
-                    </fo:page-sequence>
+                </fo:page-sequence>
 
-                </xsl:for-each>
+            </xsl:for-each>
 
         </fo:root>
     </xsl:template>

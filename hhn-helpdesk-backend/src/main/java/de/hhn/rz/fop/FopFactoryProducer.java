@@ -36,7 +36,7 @@ public class FopFactoryProducer {
     public FopFactory fopFactory() {
         try (InputStream configStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("fop-config.xml")) {
 
-            final FopFactoryBuilder fopBuilder = new FopFactoryBuilder(new File(".").toURI());
+            final FopFactoryBuilder fopBuilder = new FopFactoryBuilder(new File(".").toURI(), new FopClasspathPathResolver());
             final DefaultConfigurationBuilder cfgBuilder = new DefaultConfigurationBuilder();
             final org.apache.fop.configuration.Configuration cfg = cfgBuilder.build(configStream);
             fopBuilder.setConfiguration(cfg);
