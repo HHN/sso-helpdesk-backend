@@ -49,7 +49,7 @@
                         </fo:table-body>
                     </fo:table>
                     <fo:block font-size="14pt" space-after="5mm">
-                        Betrifft: Neues Initialpasswort für Ihren Nutzeraccount
+                        Betrifft: Neues initiales Passwort für Ihren Nutzeraccount
                     </fo:block>
 
                     <fo:block>
