@@ -1,7 +1,5 @@
 package de.hhn.rz;
 
-import org.springframework.stereotype.Service;
-
 public abstract class AbstractService {
 
    public void checkParameter(Object o) {

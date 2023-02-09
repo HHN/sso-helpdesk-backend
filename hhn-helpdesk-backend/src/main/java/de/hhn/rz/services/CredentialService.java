@@ -14,14 +14,11 @@ import java.time.LocalDateTime;
 @Service
 public class CredentialService extends AbstractService {
 
-    private final AuditLogService auditLogService;
     private final AccountRepository accountRepository;
     private final Decryptor decryptor;
 
-    public CredentialService(@Autowired AuditLogService auditLogService,
-                             @Autowired AccountRepository accountRepository,
+    public CredentialService(@Autowired AccountRepository accountRepository,
                              @Autowired Decryptor decryptor) {
-        this.auditLogService = auditLogService;
         this.accountRepository = accountRepository;
         this.decryptor = decryptor;
     }

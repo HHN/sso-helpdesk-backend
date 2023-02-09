@@ -17,10 +17,9 @@ import java.util.Map;
  * events from Java objects.
  * <p>
  * It is a partially modified version from
- * https://github.com/apache/xmlgraphics-fop/blob/trunk/fop/examples/embedding/java/embedding/tools/AbstractObjectReader.java
+ * <a href="https://github.com/apache/xmlgraphics-fop/blob/trunk/fop/examples/embedding/java/embedding/tools/AbstractObjectReader.java">GitHub</a>
  */
 public abstract class AbstractObjectReader implements XMLReader {
-
     private static final String NAMESPACES = "http://xml.org/sax/features/namespaces";
     private static final String NS_PREFIXES = "http://xml.org/sax/features/namespace-prefixes";
 
@@ -133,24 +132,6 @@ public abstract class AbstractObjectReader implements XMLReader {
     }
 
     /**
-     * Returns true if the NAMESPACES feature is enabled.
-     *
-     * @return boolean true if enabled
-     */
-    protected boolean isNamespaces() {
-        return getFeature(NAMESPACES);
-    }
-
-    /**
-     * Returns true if the MS_PREFIXES feature is enabled.
-     *
-     * @return boolean true if enabled
-     */
-    protected boolean isNamespacePrefixes() {
-        return getFeature(NS_PREFIXES);
-    }
-
-    /**
      * @see XMLReader#setFeature(String, boolean)
      */
     @Override
@@ -162,7 +143,7 @@ public abstract class AbstractObjectReader implements XMLReader {
      * @see XMLReader#parse(String)
      */
     @Override
-    public void parse(String systemId) throws IOException, SAXException {
+    public void parse(String systemId) throws SAXException {
         throw new SAXException(
                 this.getClass().getName()
                         + " cannot be used with system identifiers (URIs)");
@@ -172,7 +153,6 @@ public abstract class AbstractObjectReader implements XMLReader {
      * @see XMLReader#parse(InputSource)
      */
     @Override
-    public abstract void parse(InputSource input)
-            throws IOException, SAXException;
+    public abstract void parse(InputSource input) throws SAXException;
 
 }

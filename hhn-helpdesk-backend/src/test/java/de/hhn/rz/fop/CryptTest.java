@@ -3,13 +3,12 @@ package de.hhn.rz.fop;
 import de.hhn.rz.crypt.Decryptor;
 import de.hhn.rz.crypt.Encryptor;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 
 public class CryptTest {
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         byte[] iv = new byte[16];
         new SecureRandom().nextBytes(iv);

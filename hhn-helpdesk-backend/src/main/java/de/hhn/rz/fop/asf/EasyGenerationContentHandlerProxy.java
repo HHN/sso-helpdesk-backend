@@ -13,7 +13,7 @@ import org.xml.sax.helpers.AttributesImpl;
  * Note: This class is only useful for simple cases with no namespaces.
  * <br>
  * It is copied from
- * https://github.com/apache/xmlgraphics-fop/blob/trunk/fop/examples/embedding/java/embedding/tools/EasyGenerationContentHandlerProxy.java
+ * <a href="https://github.com/apache/xmlgraphics-fop/blob/trunk/fop/examples/embedding/java/embedding/tools/EasyGenerationContentHandlerProxy.java">GitHub</a>
  */
 public class EasyGenerationContentHandlerProxy implements ContentHandler {
 

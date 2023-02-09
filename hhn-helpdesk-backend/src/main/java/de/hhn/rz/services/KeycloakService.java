@@ -17,14 +17,10 @@ public class KeycloakService extends AbstractService {
     private static final Pattern PATTERN_EMPLOYEE_ID = Pattern.compile("^[0-9]*$");
     private final RealmResource client;
     private final CredentialService credentialService;
-    private final AuditLogService auditLogService;
-
     public KeycloakService(@Autowired RealmResource client,
-                           @Autowired CredentialService credentialService,
-                           @Autowired AuditLogService auditLogService) {
+                           @Autowired CredentialService credentialService) {
         this.client = client;
         this.credentialService = credentialService;
-        this.auditLogService = auditLogService;
     }
 
     public List<Account> findAccounts(Integer first, Integer max, String searchParameter) {

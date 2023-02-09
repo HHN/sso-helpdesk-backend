@@ -66,7 +66,7 @@ public class FopFactoryProducer {
 
     }
 
-    private void printContent(Iterator iterator, String category) {
+    private void printContent(Iterator<?> iterator, String category) {
         while (iterator.hasNext()) {
             Object converter = iterator.next();
             logger.debug("Available '{}': {}", category, converter.getClass().getSimpleName());

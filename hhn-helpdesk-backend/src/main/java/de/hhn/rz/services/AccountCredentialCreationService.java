@@ -6,7 +6,6 @@ import de.hhn.rz.db.AccountRepository;
 import de.hhn.rz.db.entities.AccountCredential;
 import de.hhn.rz.db.entities.Location;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.hibernate.engine.jdbc.LobCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
