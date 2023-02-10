@@ -6,20 +6,37 @@
     <xsl:param name="versionParam" select="'1.0'"/>
     <xsl:variable name="now" select="date:date-time()"/>
     <xsl:variable name="pageMargin" select="'2cm'"/>
+    <xsl:variable name="pageMarginTop" select="'1cm'"/>
     <xsl:variable name="lineMargin"
                   select="'4mm'"/>
     <xsl:template match="hhn-account">
         <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
             <fo:layout-master-set>
                 <fo:simple-page-master master-name="simpleA4" page-height="29.7cm" page-width="21cm"
-                                       margin-top="{$pageMargin}" margin-bottom="{$pageMargin}"
-                                       margin-left="{$pageMargin}" margin-right="{$pageMargin}">
-                    <fo:region-body/>
+                                       margin-top="{$pageMarginTop}" margin-bottom="{$pageMargin}"
+                                       margin-right="{$pageMargin}">
+
+                    <fo:region-body margin-left="{$pageMargin}" />
+
+                    <fo:region-start region-name="Inhalt-rechts-start" extent="{$pageMargin}"/>
+
                 </fo:simple-page-master>
             </fo:layout-master-set>
             <xsl:for-each select="hhn-account-element">
 
                 <fo:page-sequence master-reference="simpleA4">
+
+                    <fo:static-content flow-name="Inhalt-rechts-start">
+
+                        <!-- DIN 5008 Type B -->
+                        <fo:block space-after="85mm"/>
+                        <fo:block space-after="105mm">
+                            <fo:leader leader-pattern="rule" leader-length="25%" rule-style="solid" rule-thickness="1pt"/>
+                        </fo:block>
+                        <fo:block space-after="105mm">
+                            <fo:leader leader-pattern="rule" leader-length="25%" rule-style="solid" rule-thickness="1pt"/>
+                        </fo:block>
+                    </fo:static-content>
 
                     <fo:flow flow-name="xsl-region-body">
 
@@ -48,8 +65,8 @@
                                 </fo:table-body>
                             </fo:table>
                         </fo:block>
-
-                        <fo:block space-after="10mm"/>
+                        <fo:block space-after="6mm">
+                        </fo:block>
                         <fo:block font-size="6pt" space-after="5mm">
                             Rechenzentrum - Hochschule Heilbronn - 74081 Heilbronn
                         </fo:block>
