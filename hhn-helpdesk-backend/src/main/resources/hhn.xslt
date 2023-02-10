@@ -16,9 +16,10 @@
                                        margin-top="{$pageMarginTop}" margin-bottom="{$pageMargin}"
                                        margin-right="{$pageMargin}">
 
+                    <!-- https://www.data2type.de/xml-xslt-xslfo/xsl-fo/xslfo-referenz/elemente/fo-region-body -->
                     <fo:region-body margin-left="{$pageMargin}" />
 
-                    <fo:region-start region-name="Inhalt-rechts-start" extent="{$pageMargin}"/>
+                    <fo:region-start region-name="content-left" extent="{$pageMargin}"/>
 
                 </fo:simple-page-master>
             </fo:layout-master-set>
@@ -26,7 +27,7 @@
 
                 <fo:page-sequence master-reference="simpleA4">
 
-                    <fo:static-content flow-name="Inhalt-rechts-start">
+                    <fo:static-content flow-name="content-left">
 
                         <!-- DIN 5008 Type B -->
                         <fo:block space-after="85mm"/>
