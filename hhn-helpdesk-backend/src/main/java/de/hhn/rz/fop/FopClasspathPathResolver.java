@@ -12,7 +12,7 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- * This class is used to load images and fonts from the jar the application is packaged in. Therefore e.g. images
+ * This class is used to load images and fonts from the jar the application is packaged in. Therefore, e.g. images
  * have to be prefixed with "classpath:" in the corresponding xsl stylesheet to be found properly.
  */
 public class FopClasspathPathResolver implements ResourceResolver {

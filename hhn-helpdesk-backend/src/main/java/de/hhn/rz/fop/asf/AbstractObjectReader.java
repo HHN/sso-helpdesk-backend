@@ -8,7 +8,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 

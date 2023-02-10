@@ -77,7 +77,7 @@
                             </fo:table-body>
                         </fo:table>
                         <fo:block font-size="14pt" space-after="5mm">
-                            Betrifft: Initiales Passwort für Ihren Hochschulaccount
+                            Betrifft: Passwort für Ihren Hochschulaccount
                         </fo:block>
 
                         <fo:block space-after="0.5cm">
