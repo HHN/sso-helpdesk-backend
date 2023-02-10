@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 
 @Entity
 public class AccountCredential {
-
     @Id
     @GeneratedValue
     private Long id;
-
     @Column(length = 255, nullable = false)
     private String password;
 

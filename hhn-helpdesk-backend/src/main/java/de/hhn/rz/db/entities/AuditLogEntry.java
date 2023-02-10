@@ -10,17 +10,13 @@ import java.time.LocalDateTime;
 
 @Entity
 public class AuditLogEntry {
-
     @Id
     @GeneratedValue
     private Long id;
-
     @Column(nullable = false)
     private LocalDateTime time = LocalDateTime.now();
-
     @Column(length = 1024, nullable = false)
     private String actor;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AuditAction action;

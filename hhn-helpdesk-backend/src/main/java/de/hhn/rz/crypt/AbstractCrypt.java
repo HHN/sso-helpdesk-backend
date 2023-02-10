@@ -19,13 +19,10 @@ import java.security.spec.KeySpec;
 import java.util.Base64;
 
 public abstract class AbstractCrypt extends AbstractService {
-
     protected final String secret;
-
     protected AbstractCrypt(String secret) {
         this.secret = secret;
     }
-
     protected SecretKey getKeyFromPassword(String password, String salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         final SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");

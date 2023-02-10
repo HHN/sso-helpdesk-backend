@@ -11,7 +11,6 @@ public class Encryptor extends AbstractCrypt {
     public Encryptor(@Value("${hhn.credentials.secret") String secret) {
         super(secret);
     }
-
     public String encrypt(String toCrypt, String salt, byte[] iv) {
         checkParameter(salt);
         checkParameter(toCrypt);

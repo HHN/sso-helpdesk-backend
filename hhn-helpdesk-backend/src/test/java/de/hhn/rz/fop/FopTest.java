@@ -17,9 +17,7 @@ public class FopTest {
 
     private static final String SECRET = "TEST";
 
-
     public static void main(String[] args) throws IOException {
-
 
         FopFactoryProducer producer = new FopFactoryProducer(300);
         FopFactory factory = producer.fopFactory();

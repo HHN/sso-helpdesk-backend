@@ -1,8 +1,5 @@
 package de.hhn.rz.crypt;
 
-import de.hhn.rz.crypt.Decryptor;
-import de.hhn.rz.crypt.Encryptor;
-
 import java.security.SecureRandom;
 
 public class CryptTest {
