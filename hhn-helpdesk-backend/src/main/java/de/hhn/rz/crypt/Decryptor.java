@@ -14,6 +14,7 @@ public class Decryptor extends AbstractCrypt {
     public String decrypt(String toDecrypt, String salt, byte[] iv) {
         checkParameter(toDecrypt);
         checkParameter(salt);
+        checkParameter(iv);
         try {
             return decryptPasswordBased(toDecrypt, getKeyFromPassword(secret, salt), new IvParameterSpec(iv));
         } catch (Exception e) {

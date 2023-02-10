@@ -14,6 +14,7 @@ public class Encryptor extends AbstractCrypt {
     public String encrypt(String toCrypt, String salt, byte[] iv) {
         checkParameter(salt);
         checkParameter(toCrypt);
+        checkParameter(iv);
         try {
             return encryptPasswordBased(toCrypt, getKeyFromPassword(secret, salt), new IvParameterSpec(iv));
         } catch (Exception e) {

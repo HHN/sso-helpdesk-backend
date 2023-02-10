@@ -1,4 +1,4 @@
-package de.hhn.rz.schema;
+package de.hhn.rz.utilities;
 
 import de.hhn.rz.db.entities.AccountCredential;
 import de.hhn.rz.db.entities.AuditLogEntry;

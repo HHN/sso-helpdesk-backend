@@ -39,6 +39,9 @@ public class XslTransformerService extends AbstractService {
 
     public byte[] process(List<AccountCredential> credentials) {
         checkParameter(credentials);
+        if(credentials.isEmpty()) {
+            throw new IllegalArgumentException("Credentials must not be empty");
+        }
 
         try (ByteArrayOutputStream pdfDoc = new ByteArrayOutputStream()) {
             final Fop fop = fopFactory.newFop("application/pdf", pdfDoc);
