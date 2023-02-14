@@ -8,12 +8,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @KeycloakConfiguration
-public class KeycloakSpringWebSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
-{
+public class KeycloakSpringWebSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(keycloakAuthenticationProvider());
@@ -31,14 +32,14 @@ public class KeycloakSpringWebSecurityConfig extends KeycloakWebSecurityConfigur
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
+    protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
-
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("HHN_HELPDESK_ADMIN")
                 .anyRequest().permitAll()
-                .and().csrf().disable();
+                .and()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
+
 }
