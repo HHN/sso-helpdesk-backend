@@ -2,13 +2,14 @@ import axios from "axios";
 import { useAppStore } from "@/store/app";
 import download from 'downloadjs';
 import { fetchLocations } from "./LocationService";
+import { checkIfUserIsLoggedIn } from "./CheckLoginService";
 
 
 const appStore = useAppStore();
 
 export function createCredentials(locationId: number, amount: number) : void {
     appStore.isWaiting = true;
-    axios.post("/admin/rest/create", {
+    checkIfUserIsLoggedIn(axios.post("/admin/rest/create", {
         location: locationId,
         amount: amount
     }).then(response => {
@@ -18,5 +19,5 @@ export function createCredentials(locationId: number, amount: number) : void {
         download(response.data, "credentials.pdf", content);
         fetchLocations();
         
-    });
+    }));
 }

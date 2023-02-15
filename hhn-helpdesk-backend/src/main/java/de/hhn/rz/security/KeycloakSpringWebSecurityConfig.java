@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -35,11 +36,13 @@ public class KeycloakSpringWebSecurityConfig extends KeycloakWebSecurityConfigur
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("HHN_HELPDESK_ADMIN")
                 .anyRequest().permitAll()
                 .and()
-                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
     }
 
 }

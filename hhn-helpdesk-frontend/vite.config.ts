@@ -38,8 +38,19 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/admin': 'http://localhost:8080'
-    }
+      '/admin': {
+        target: 'http://localhost:8080',
+        headers: {
+          "X-Forwarded-Host": "http://localhost:3000"
+        }
+      },
+      '/sso': {
+        target: 'http://localhost:8080',
+        headers: {
+          "X-Forwarded-Host": "http://localhost:3000"
+        }
+      },
+  }
   },
   
     

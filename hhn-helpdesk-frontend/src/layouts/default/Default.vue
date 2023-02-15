@@ -38,6 +38,9 @@
   import DefaultNavigation from './Navigation.vue'
 
   import { useAppStore } from '@/store/app';
+import { fetchCurrentUser } from '@/services/CurrentUserService';
 
   const appStore = useAppStore()
+
+  fetchCurrentUser();
 </script>
