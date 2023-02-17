@@ -21,7 +21,7 @@
     </thead>
     <tbody>
       <tr
-        v-for="item in appStore.auditList"
+        v-for="item in appStore.currentAuditList"
         :key="item.id"
       >
         <td>{{ item.id }}</td>
@@ -32,6 +32,12 @@
       </tr>
     </tbody>
   </v-table>
+  <v-pagination
+      v-model="appStore.currentAuditPage"
+      :length="appStore.totalAuditPages"
+      start="0"
+     @update:model-value="fetchNewAuditEntries"
+    ></v-pagination>
 </template>
 <script lang="ts" setup>
 import { fetchAuditEntries } from '@/services/AuditService';
@@ -41,5 +47,10 @@ const appStore = useAppStore();
 
 
 fetchAuditEntries();
+
+
+function fetchNewAuditEntries(v : number) {
+  fetchAuditEntries(v);
+}
 
 </script>

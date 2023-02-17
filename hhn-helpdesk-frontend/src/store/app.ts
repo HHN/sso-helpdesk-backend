@@ -14,7 +14,10 @@ export const useAppStore = defineStore('app', {
     resultList: [] as User[],
     searchQuery: "",
     locationList: [] as Location[],
-    auditList: [] as AuditEntry[],
+    currentAuditList: [] as AuditEntry[],
+    // based on 0
+    currentAuditPage: 0,
+    totalAuditPages: 1,
     isWaiting: false,
     currentResetUser: nullUser,
     showResetDialog: false,

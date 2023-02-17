@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class AuditEndpoint extends AbstractService {
     }
 
     @GetMapping("audits")
-    public Page<AuditLogEntry> audits(@RequestParam("page") int page, @RequestParam("size") int size) {
+    public Page<AuditLogEntry> audits(@RequestParam(value = "page", defaultValue = "0") int page, @RequestParam(value = "size", defaultValue = "50") int size) {
         auditLogService.audit(AuditAction.VIEW_AUDIT_LOG);
 
         if (page < 0) {
