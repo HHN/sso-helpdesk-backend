@@ -3,7 +3,6 @@ package de.hhn.rz.utilities;
 import de.hhn.rz.db.entities.AccountCredential;
 import de.hhn.rz.db.entities.AuditLogEntry;
 import de.hhn.rz.db.entities.Location;
-import net.bytebuddy.asm.Advice;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;

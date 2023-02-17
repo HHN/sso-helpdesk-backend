@@ -6,10 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(indexes = {
+        @Index(name = "account_credential_seq_idx", columnList = "seq"),
+        @Index(name = "account_credential_location_idx", columnList = "location_id")
+})
 public class AccountCredential {
     @Id
     @GeneratedValue

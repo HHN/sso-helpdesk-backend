@@ -7,12 +7,14 @@ import de.hhn.rz.db.entities.AuditAction;
 import de.hhn.rz.db.entities.AuditLogEntry;
 import de.hhn.rz.services.AuditLogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
@@ -28,9 +30,18 @@ public class AuditEndpoint extends AbstractService {
     }
 
     @GetMapping("audits")
-    public List<AuditLogEntry> audits() {
+    public Page<AuditLogEntry> audits(@RequestParam("page") int page, @RequestParam("size") int size) {
         auditLogService.audit(AuditAction.VIEW_AUDIT_LOG);
-        return service.getAudits();
+
+        if(page < 0) {
+            page = 0;
+        }
+
+        if(size > 50) {
+            size = 50;
+        }
+
+        return service.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
     }
 
 }

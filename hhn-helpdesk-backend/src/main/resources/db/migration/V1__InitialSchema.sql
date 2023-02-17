@@ -37,3 +37,6 @@ alter table account_credential
     add constraint FKlquvf519kymgi1m06asj2nb2x
         foreign key (location_id)
             references Location;
+
+create index account_credential_seq_idx on account_credential (seq);
+create index account_credential_location_idx on account_credential (location_id);
