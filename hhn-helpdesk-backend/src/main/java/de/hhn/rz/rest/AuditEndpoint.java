@@ -33,11 +33,11 @@ public class AuditEndpoint extends AbstractService {
     public Page<AuditLogEntry> audits(@RequestParam("page") int page, @RequestParam("size") int size) {
         auditLogService.audit(AuditAction.VIEW_AUDIT_LOG);
 
-        if(page < 0) {
+        if (page < 0) {
             page = 0;
         }
 
-        if(size > 50) {
+        if (size < 1 || size > 50) {
             size = 50;
         }
 
