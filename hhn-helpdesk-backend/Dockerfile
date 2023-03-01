@@ -9,8 +9,7 @@ COPY src src
 RUN ./mvnw clean install -DskipTests=true
 
 FROM alpine:edge
-MAINTAINER rz.hs-heilbronn.de
-RUN apk add --no-cache openjdk17
+RUN apk add --no-cache openjdk17 msttcorefonts-installer fontconfig && update-ms-fonts
 
 WORKDIR /deployments/
 COPY --from=build /workspace/app/target/hhn-helpdesk-backend-1.0.0-SNAPSHOT.jar /deployments/

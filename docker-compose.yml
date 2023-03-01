@@ -13,10 +13,8 @@ services:
     restart: always
   hhn-helpdesk-backend:
     build:
-      context: .
+      context: ./hhn-helpdesk-backend
       dockerfile: Dockerfile
-    ports:
-      - "127.0.0.1:8080:8080"
     environment:
       - JAVA_OPTS=foo=bar
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
@@ -26,6 +24,20 @@ services:
       - postgres
     depends_on:
       - postgres
+    restart: always
+  hhn-helpdesk-frontend:
+    build:
+      context: ./hhn-helpdesk-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "443:443"
+      - "80:80"
+    links:
+      - postgres
+      - hhn-helpdesk-backend
+    depends_on:
+      - postgres
+      - hhn-helpdesk-backend
     restart: always
 volumes:
   pg-data:
