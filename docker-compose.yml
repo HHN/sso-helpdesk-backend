@@ -48,6 +48,9 @@ services:
     ports:
       - "443:443"
       - "80:80"
+#    volumes:
+#      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+#      - ./nginx/ssl/:/etc/nginx/ssl/:ro
     links:
       - postgres
       - hhn-helpdesk-backend
