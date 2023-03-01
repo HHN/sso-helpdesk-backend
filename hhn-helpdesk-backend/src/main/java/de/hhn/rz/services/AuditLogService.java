@@ -64,7 +64,6 @@ public class AuditLogService extends AbstractService {
             if (header != null && !header.isBlank()) {
                 return header;
             }
-            return requestAttributes.getRequest().getRemoteAddr();
         }
         return "N/A";
     }
