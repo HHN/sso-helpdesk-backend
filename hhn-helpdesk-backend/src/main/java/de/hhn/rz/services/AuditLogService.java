@@ -59,7 +59,11 @@ public class AuditLogService extends AbstractService {
 
         final Object o = RequestContextHolder.currentRequestAttributes();
 
-        if(o instanceof ServletRequestAttributes requestAttributes) {
+        if (o instanceof ServletRequestAttributes requestAttributes) {
+            final String header = requestAttributes.getRequest().getHeader("X-Forwarded-For");
+            if (header != null && !header.isBlank()) {
+                return header;
+            }
             return requestAttributes.getRequest().getRemoteAddr();
         }
         return "N/A";
