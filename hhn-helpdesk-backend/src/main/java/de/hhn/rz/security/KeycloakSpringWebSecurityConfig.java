@@ -18,7 +18,11 @@ package de.hhn.rz.security;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.web.servlet.ConditionalOnMissingFilterBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.session.SessionRegistry;
@@ -27,6 +31,9 @@ import org.springframework.security.web.authentication.Http403ForbiddenEntryPoin
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.filter.ForwardedHeaderFilter;
+
+import javax.servlet.DispatcherType;
 
 @KeycloakConfiguration
 public class KeycloakSpringWebSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
@@ -57,6 +64,17 @@ public class KeycloakSpringWebSecurityConfig extends KeycloakWebSecurityConfigur
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
+    }
+
+    @Bean
+    @ConditionalOnMissingFilterBean(ForwardedHeaderFilter.class)
+    @ConditionalOnProperty(value = "server.forward-headers-strategy", havingValue = "framework")
+    public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+        ForwardedHeaderFilter filter = new ForwardedHeaderFilter();
+        FilterRegistrationBean<ForwardedHeaderFilter> registration = new FilterRegistrationBean<>(filter);
+        registration.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR);
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return registration;
     }
 
 }
