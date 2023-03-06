@@ -27,7 +27,7 @@
 
     <artifactId>hhn-helpdesk-backend</artifactId>
     <groupId>de.hs-heilbronn.rz</groupId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <organization>
         <name>Hochschule Heilbronn</name>
