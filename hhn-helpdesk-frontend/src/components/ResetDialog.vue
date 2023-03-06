@@ -4,6 +4,7 @@
       max-width="600px"
     >
       <v-card>
+        <h3 style="text-align: center;">Zurücksetzen von "{{ appStore.currentResetUser.content?.firstName + " " +  appStore.currentResetUser.content?.lastName  + " (" + appStore.currentResetUser.content?.id + ")" }}"</h3>
         <div id="reader"></div>
         <v-row>
             
