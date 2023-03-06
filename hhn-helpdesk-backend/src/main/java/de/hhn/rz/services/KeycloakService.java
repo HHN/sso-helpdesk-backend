@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 @Service
 public class KeycloakService extends AbstractService {
 
-    private static final Pattern PATTERN_EMPLOYEE_ID = Pattern.compile("^[0-9]*$");
+    private static final Pattern PATTERN_EMPLOYEE_ID = Pattern.compile("^[MmPp][0-9]*$");
     private final RealmResource client;
     private final CredentialService credentialService;
     private final AuditLogService auditLogService;
