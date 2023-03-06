@@ -30,7 +30,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <h1>Test</h1>
 </template>
 <script lang="ts" setup>
 import { User } from "@/models/User";
