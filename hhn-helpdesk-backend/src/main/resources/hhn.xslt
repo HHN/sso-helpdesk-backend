@@ -17,7 +17,7 @@
                                        margin-right="{$pageMargin}">
 
                     <!-- https://www.data2type.de/xml-xslt-xslfo/xsl-fo/xslfo-referenz/elemente/fo-region-body -->
-                    <fo:region-body margin-left="{$pageMargin}" />
+                    <fo:region-body margin-left="{$pageMargin}"/>
 
                     <fo:region-start region-name="content-left" extent="{$pageMargin}"/>
 
@@ -32,10 +32,12 @@
                         <!-- DIN 5008 Type B -->
                         <fo:block space-after="85mm"/>
                         <fo:block space-after="105mm">
-                            <fo:leader leader-pattern="rule" leader-length="25%" rule-style="solid" rule-thickness="1pt"/>
+                            <fo:leader leader-pattern="rule" leader-length="25%" rule-style="solid"
+                                       rule-thickness="1pt"/>
                         </fo:block>
                         <fo:block space-after="105mm">
-                            <fo:leader leader-pattern="rule" leader-length="25%" rule-style="solid" rule-thickness="1pt"/>
+                            <fo:leader leader-pattern="rule" leader-length="25%" rule-style="solid"
+                                       rule-thickness="1pt"/>
                         </fo:block>
                     </fo:static-content>
 
@@ -99,16 +101,12 @@
                         </fo:block>
 
                         <fo:block space-after="0.5cm">
-                            Hallo,
+                            Sehr geehrte Damen und Herren,
                         </fo:block>
                         <fo:block space-after="0.5cm" text-align="justify">
-                            wir freuen uns, Ihnen mitteilen zu können, dass wir das Passwort für Ihren Hochschulaccount
-                            erfolgreich zurückgesetzt haben.
-                            Bitte bewahren Sie dieses Passwort sicher auf und ändern Sie es zeitnah unter
-                            https://login.hs-heilbronn.de
+                            in Ihrem Auftrag wurde das Passwort Ihres Hochschulaccounts soeben zurückgesetzt.
 
-                            Ihr neues Passwort lautet:
-
+                            Ihr neues Initialpasswort lautet:
                         </fo:block>
                         <fo:block font-size="24pt" text-align="center" space-after="0.5cm">
                             <xsl:if test="normalize-space(hhn-password) != ''">
@@ -122,23 +120,24 @@
                             </xsl:if>
                         </fo:block>
                         <fo:block space-after="0.5cm" text-align="justify">
-
-                            Bitte besuchen Sie https://login.hs-heilbronn.de und melden Sie sich mit Ihrem Benutzernamen
-                            und dem initialen Passwort an.
-                            Sobald Sie angemeldet sind, werden Sie aufgefordert, ein neues, sicheres Passwort zu
-                            erstellen.
+                            Melden Sie sich mit Ihrem Benutzernamen und diesem Initialpasswort unter
+                        </fo:block>
+                        <fo:block font-size="16pt" text-align="center" space-after="0.5cm">
+                            https://login.hs-heilbronn.de
+                        </fo:block>
+                        <fo:block space-after="0.5cm" text-align="justify">
+                            an und folgen Sie den Anweisungen, um ein neues sicheres Passwort einzurichten.
                         </fo:block>
 
                         <fo:block space-after="0.5cm" text-align="justify">
-                            Wir empfehlen Ihnen, ein Passwort zu wählen, das mindestens zwölf Zeichen lang ist und
-                            sowohl Buchstaben als auch Zahlen sowie Sonderzeichen enthält.
-                            Verwenden Sie keine einfachen Wörter oder Informationen, die einfach zu erraten sind (z. B.
-                            Ihren Namen oder Geburtstag).
+                            Wir empfehlen die Verwendung eines Passwort-Managers. Ihr neues Passwort sollte mindestens
+                            12 Zeichen lang sein und sowohl Buchstaben als auch Zahlen und Sonderzeichen enthalten.
+                            Verwenden Sie keine einfachen Wörter oder Informationen, die leicht zu erraten sind (z. B.
+                            Ihren Namen oder Ihr Geburtsdatum).
                         </fo:block>
 
                         <fo:block space-after="1.5cm" text-align="justify">
-                            Wenn Sie Fragen oder Probleme beim Zugriff auf Ihr Konto haben, wenden Sie sich bitte an
-                            benutzerverwaltung@hs-heilbronn.de
+                            Bei Fragen wenden Sie sich bitte an reset@hs-heilbronn.de.
                         </fo:block>
                         <fo:block>
                             Viele Grüße
