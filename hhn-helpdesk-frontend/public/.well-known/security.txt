@@ -1,0 +1,4 @@
+Contact: mailto:isb@hs-heilbronn.de
+Expires: 2040-12-31T22:59:00.000Z
+Preferred-Languages: de,en
+Canonical: https://helpdesk.hs-heilbronn.de/.well-known/security.txt
