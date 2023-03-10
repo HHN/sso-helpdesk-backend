@@ -94,10 +94,6 @@ public class AccountCredentialCreationService extends AbstractService {
         String seq = null;
 
         while (seq == null) {
-            logger.debug("Generating next seq");
-            final int val = repository.getNextSeq();
-            logger.debug("Next seq: {}", val);
-
             final String candidate = UUID.randomUUID().toString().substring(0, 7);
 
             logger.debug("Candidate: {}", candidate);
