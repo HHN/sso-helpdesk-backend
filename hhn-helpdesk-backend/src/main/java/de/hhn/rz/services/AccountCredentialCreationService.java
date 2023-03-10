@@ -91,9 +91,9 @@ public class AccountCredentialCreationService extends AbstractService {
 
         // 4.3980465e+12 possible identifiers (64*64*64*64*64*64*64) -> possibility for endless loop is ultra tiny.
         while (seq == null) {
-            final byte[] randomBytes = new byte[256];
-            ThreadLocalRandom.current().nextBytes(randomBytes);
-            final byte[] base64 = Base64.getEncoder().encode(Arrays.toString(randomBytes).getBytes(StandardCharsets.UTF_8));
+            final int val = repository.getNextSeq();
+
+            final byte[] base64 = Base64.getEncoder().encode(Arrays.toString((val+"").getBytes()).getBytes(StandardCharsets.UTF_8));
             final String candidate = new String(base64).substring(0, 7);
 
             if (!existsBySequence(candidate)) {
