@@ -21,6 +21,8 @@ import de.hhn.rz.db.AccountRepository;
 import de.hhn.rz.db.entities.AccountCredential;
 import de.hhn.rz.db.entities.Location;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,11 +31,13 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class AccountCredentialCreationService extends AbstractService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AccountCredentialCreationService.class);
     private final AccountRepository repository;
     private final char[] allowedChars;
     private final SecureRandom random;
@@ -89,15 +93,19 @@ public class AccountCredentialCreationService extends AbstractService {
     private String createSeq() {
         String seq = null;
 
-        // 4.3980465e+12 possible identifiers (64*64*64*64*64*64*64) -> possibility for endless loop is ultra tiny.
         while (seq == null) {
+            logger.debug("Generating next seq");
             final int val = repository.getNextSeq();
+            logger.debug("Next seq: {}", val);
 
-            final byte[] base64 = Base64.getEncoder().encode(Arrays.toString((val+"").getBytes()).getBytes(StandardCharsets.UTF_8));
-            final String candidate = new String(base64).substring(0, 7);
+            final String candidate = UUID.randomUUID().toString().substring(0, 7);
+
+            logger.debug("Candidate: {}", candidate);
 
             if (!existsBySequence(candidate)) {
                 seq = candidate;
+            } else {
+                logger.debug("Candidate '{}' already exists.", candidate);
             }
         }
 
