@@ -23,7 +23,7 @@ import javax.crypto.spec.IvParameterSpec;
 @Service
 public class Encryptor extends AbstractCrypt {
 
-    public Encryptor(@Value("${hhn.credentials.secret") String secret) {
+    public Encryptor(@Value("${hhn.credentials.secret}") String secret) {
         super(secret);
     }
     public String encrypt(String toCrypt, String salt, byte[] iv) {
