@@ -23,6 +23,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.keycloak.KeycloakPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -49,7 +50,10 @@ public class AuditLogService extends AbstractService {
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof KeycloakPrincipal<?> kp) {
             ale.setActor(kp.getKeycloakSecurityContext().getIdToken().getPreferredUsername());
-        } else {
+        } else if(principal instanceof OidcUser oi){
+            ale.setActor(oi.getPreferredUsername());
+        }
+        else {
             ale.setActor(principal.toString());
         }
         auditLogRepository.save(ale);

@@ -16,8 +16,6 @@
 package de.hhn.rz.security;
 
 import org.keycloak.OAuth2Constants;
-import org.keycloak.adapters.KeycloakConfigResolver;
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -33,11 +31,6 @@ public class KeycloakSpringIntegration {
     @Bean
     public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
-    }
-
-    @Bean
-    public KeycloakConfigResolver keycloakConfigResolver() {
-        return new KeycloakSpringBootConfigResolver();
     }
 
     @Bean
