@@ -58,10 +58,8 @@ public class SecurityConfiguration {
         return authorities -> {
             Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
             var authority = authorities.iterator().next();
-            boolean isOidc = authority instanceof OidcUserAuthority;
 
-            if (isOidc) {
-                var oidcUserAuthority = (OidcUserAuthority) authority;
+            if (authority instanceof OidcUserAuthority oidcUserAuthority) {
                 var userInfo = oidcUserAuthority.getUserInfo();
 
                 if (userInfo.hasClaim("realm_access")) {
@@ -69,22 +67,23 @@ public class SecurityConfiguration {
                     var roles = (Collection<String>) realmAccess.get("roles");
                     mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
                 }
-            } else {
-                var oauth2UserAuthority = (OAuth2UserAuthority) authority;
-                Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
+            } else if (authority instanceof OAuth2UserAuthority oAuth2UserAuthority) {
+                Map<String, Object> userAttributes = oAuth2UserAuthority.getAttributes();
 
                 if (userAttributes.containsKey("realm_access")) {
                     var realmAccess = (Map<String, Object>) userAttributes.get("realm_access");
                     var roles = (Collection<String>) realmAccess.get("roles");
                     mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
                 }
+            } else {
+                throw new RuntimeException(String.format("Unknown authority of type %s", authority.getClass().getName()));
             }
 
             return mappedAuthorities;
         };
     }
 
-    Collection<GrantedAuthority> generateAuthoritiesFromClaim(Collection<String> roles) {
+    private Collection<GrantedAuthority> generateAuthoritiesFromClaim(Collection<String> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
