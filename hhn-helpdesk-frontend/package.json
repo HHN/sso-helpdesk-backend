@@ -24,16 +24,16 @@
   "devDependencies": {
     "@babel/types": "^7.21.5",
     "@types/downloadjs": "^1.4.4",
-    "@types/node": "^18.11.19",
+    "@types/node": "^20.8.4",
     "@types/webfontloader": "^1.6.35",
-    "@vitejs/plugin-vue": "^3.0.3",
-    "@vue/eslint-config-typescript": "^11.0.3",
-    "eslint": "^8.22.0",
-    "eslint-plugin-vue": "^9.3.0",
-    "sass": "^1.55.0",
-    "typescript": "^4.0.8",
-    "vite": "^3.1.9",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "eslint": "^8.51.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "sass": "^1.69.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11",
     "vite-plugin-vuetify": "^1.0.2",
-    "vue-tsc": "^1.0.24"
+    "vue-tsc": "^1.8.18"
   }
 }
