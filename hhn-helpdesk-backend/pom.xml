@@ -48,6 +48,8 @@
         <!-- pdfbox needs to be compatible with ${fop.version}. Don't upgrade pdfbox to 3.x without checking fop first -->
         <pdfbox.version>2.0.28</pdfbox.version>
         <batik.version>1.17</batik.version>
+        <!-- this is needed for schema generation and needs to be aligned with hibernate used by spring boot -->
+        <hibernate.version>6.2.9.Final</hibernate.version>
     </properties>
 
     <repositories>
@@ -174,6 +176,12 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-ant</artifactId>
+            <version>${hibernate.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
