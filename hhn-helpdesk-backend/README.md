@@ -5,16 +5,17 @@
 2. [Start local keycloak as docker container](https://www.keycloak.org/getting-started/getting-started-docker)
    - Version should match the `keycloak.version` inside [pom.xml](pom.xml)
    - Be sure **not** to use port 8080
+   
 ```bash
 docker run --name keycloak-local -p 8888:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:22.0.4 start-dev
 ```
 
 ### Configuration
-1. Go to http://localhost:8888, login with `admin:admin` and create the following realms
+1. Go to http://localhost:8888/admin/, login with `admin:admin` and create the following realms
    - `helpdesk` 
    - `institution`
 
-#### Institution Realm Configuration
+#### Realm Configuration: `institution`
 1. Create the following users
    - Required user actions: `None`
    - Username: `example_user1`, `example_user2`, `...`
@@ -22,7 +23,7 @@ docker run --name keycloak-local -p 8888:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOA
    - Email verified: `True`
    - First and Last name: `User1 Example`, `...`
 
-#### Helpdesk Realm Configuration
+#### Realm Configuration: `helpdesk`
 1. Create a new realm role `HHN_HELPDESK_ADMIN`
 2. Create new OpenID Connect client for the helpdesk realm
    - Client ID: `helpdesk_user`
@@ -39,7 +40,7 @@ docker run --name keycloak-local -p 8888:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOA
    - Add to userinfo: `True`
 5. Create user `example_admin`, assign the role `HHN_HELPDESK_ADMIN` in the Role mapping tab (after the creation), and set the password to `example_admin` by pressing "Set password" in the credentials tab (disable "Temporary password")
 
-#### Master Realm Configuration
+#### Realm Configuration: `master`
 
 1. Create new client in the with the following configuration:
    - Client ID: `helpdesk_admin` 
@@ -60,15 +61,21 @@ docker run --name keycloak-local -p 8888:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOA
 2. Create database `helpdesk`
 3. If you do not use postgres:postgres as default login for your local PostgreSQL installation, change the parameters inside [application.properties](src/main/resources/application.properties)
 
-## Run backend with maven 
+## Run backend 
+
+### Via Maven 
+
 ```bash
 mvn clean package
 mvn spring-boot:run
 ```
 
+### Via IDE
+
+Just start `de.hhn.rz.HelpDeskBackend`
+
 ## Run frontend with npm
 To run the frontend please refer to the [frontend README](../hhn-helpdesk-frontend/README.md)
-
 
 # Troubleshooting
 > Q: After authenticating the frontend keeps reloading the page  
