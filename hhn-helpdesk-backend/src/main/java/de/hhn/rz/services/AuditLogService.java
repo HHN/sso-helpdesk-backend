@@ -48,9 +48,7 @@ public class AuditLogService extends AbstractService {
 
         ale.setParams(Arrays.toString(params));
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof KeycloakPrincipal<?> kp) {
-            ale.setActor(kp.getKeycloakSecurityContext().getIdToken().getPreferredUsername());
-        } else if(principal instanceof OidcUser oi){
+        if(principal instanceof OidcUser oi){
             ale.setActor(oi.getPreferredUsername());
         }
         else {

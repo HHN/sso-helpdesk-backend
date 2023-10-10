@@ -51,13 +51,7 @@ public class UserInfoEndpoint extends AbstractService {
 
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final Object principal = authentication.getPrincipal();
-        if (principal instanceof KeycloakPrincipal<?> kp) {
-            final String user = kp.getKeycloakSecurityContext().getIdToken().getPreferredUsername();
-            final Set<String> roles = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-
-            return new UserInfo(user, roles);
-        } else if (principal instanceof OidcUser ou) {
+        if (principal instanceof OidcUser ou) {
             final String user = ou.getPreferredUsername();
             final Set<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
             return new UserInfo(user, roles);
