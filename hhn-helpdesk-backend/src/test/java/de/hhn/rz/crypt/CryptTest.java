@@ -23,7 +23,7 @@ import java.security.SecureRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(classes = {Decryptor.class, Encryptor.class})
 public class CryptTest {
 
     @Autowired

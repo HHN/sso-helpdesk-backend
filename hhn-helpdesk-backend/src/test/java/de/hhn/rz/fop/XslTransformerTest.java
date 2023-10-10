@@ -15,8 +15,10 @@
  */
 package de.hhn.rz.fop;
 
+import de.hhn.rz.crypt.Decryptor;
 import de.hhn.rz.crypt.Encryptor;
 import de.hhn.rz.db.entities.AccountCredential;
+import de.hhn.rz.fop.qr.QRGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +28,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(classes = {Encryptor.class, Decryptor.class, XslTransformerService.class, QRGenerator.class, FopFactoryProducer.class})
 public class XslTransformerTest {
 
     @Autowired
