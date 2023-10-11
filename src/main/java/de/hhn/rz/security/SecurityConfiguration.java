@@ -29,9 +29,12 @@ import org.springframework.core.Ordered;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
@@ -106,7 +109,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(req -> req.requestMatchers("/admin/**").hasRole("HHN_HELPDESK_ADMIN").anyRequest().permitAll());
+        http.authorizeHttpRequests(req -> req.requestMatchers("/admin/**").hasRole(Role.HHN_HELPDESK_ADMIN.toString()).anyRequest().permitAll());
         http.oauth2Login(Customizer.withDefaults());
         http.exceptionHandling(exhan -> exhan.authenticationEntryPoint(new Http403ForbiddenEntryPoint()));
 
@@ -117,6 +120,7 @@ public class SecurityConfiguration {
         http.csrf((csrf) -> csrf.csrfTokenRepository(tokenRepository).csrfTokenRequestHandler(requestHandler))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
 
+        http.addFilterAfter(new HelpdeskAuthorizationFilter(), CsrfCookieFilter.class);
         return http.build();
     }
 
@@ -143,5 +147,29 @@ public class SecurityConfiguration {
             filterChain.doFilter(request, response);
         }
 
+    }
+
+    private static final class HelpdeskAuthorizationFilter extends OncePerRequestFilter {
+
+        private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
+
+        @Override
+        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+
+            final Authentication authentication = this.securityContextHolderStrategy.getContext().getAuthentication();
+
+            //user did successfully authenticate with Keycloak, let's check for required helpdesk role.
+            if(authentication != null) {
+                Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+                if(authorities != null) {
+                    final GrantedAuthority ga = Role.HHN_HELPDESK_ADMIN.asGrantedAuthority();
+                    if(!authorities.contains(ga)) {
+                        response.addHeader("helpdesk-missing-role", "The user doesn't has the required role to access helpdesk.");
+                    }
+                }
+            }
+
+            chain.doFilter(request, response);
+        }
     }
 }
