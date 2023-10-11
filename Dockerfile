@@ -28,7 +28,7 @@ FROM alpine:edge
 RUN apk add --no-cache openjdk17 msttcorefonts-installer fontconfig && update-ms-fonts
 
 WORKDIR /deployments/
-COPY --from=build /workspace/app/target/hhn-helpdesk-backend-2.0.0-SNAPSHOT.jar /deployments/
+COPY --from=build /workspace/app/target/hhn-helpdesk-backend-2.0.0.jar /deployments/
 
-ENTRYPOINT ["java", "-jar", "/deployments/hhn-helpdesk-backend-2.0.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/deployments/hhn-helpdesk-backend-2.0.0.jar"]
 
