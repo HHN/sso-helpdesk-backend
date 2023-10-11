@@ -79,7 +79,7 @@ mvn spring-boot:run
 Just start `de.hhn.rz.HelpDeskBackend`
 
 ## Run frontend with npm
-To run the frontend please refer to the [frontend README](../sso-helpdesk-frontend/README.md)
+To run the frontend please refer to the [frontend README](https://github.com/HHN/sso-helpdesk-frontend/)
 
 # Troubleshooting
 > Q: After authenticating the frontend keeps reloading the page  
