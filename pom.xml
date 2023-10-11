@@ -46,7 +46,7 @@
         <fop.version>2.9</fop.version>
         <qrgen.version>3.0.1</qrgen.version>
         <!-- pdfbox needs to be compatible with ${fop.version}. Don't upgrade pdfbox to 3.x without checking fop first -->
-        <pdfbox.version>2.0.28</pdfbox.version>
+        <pdfbox.version>3.0.0</pdfbox.version>
         <batik.version>1.17</batik.version>
         <!-- this is needed for schema generation and needs to be aligned with hibernate used by spring boot -->
         <hibernate.version>6.2.9.Final</hibernate.version>
