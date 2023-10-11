@@ -28,6 +28,6 @@ jobs:
         restore-keys: ${{ runner.os }}-main-m2
 
     - name: Run CI @ Backend
-      run: cd hhn-helpdesk-backend && mvn clean verify
+      run: mvn clean verify
       env:
         MAVEN_OPTS: -Xmx2048m
