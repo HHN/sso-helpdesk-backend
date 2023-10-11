@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,11 +51,9 @@ public class UserInfoEndpoint extends AbstractService {
 
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final Object principal = authentication.getPrincipal();
-        if (principal instanceof KeycloakPrincipal<?> kp) {
-            final String user = kp.getKeycloakSecurityContext().getIdToken().getPreferredUsername();
-            final Set<String> roles = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-
+        if (principal instanceof OidcUser ou) {
+            final String user = ou.getPreferredUsername();
+            final Set<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
             return new UserInfo(user, roles);
         } else {
             return new UserInfo("N/A", Collections.emptySet());

@@ -16,19 +16,14 @@
     >
       {{ appStore.alertMessage }}
 
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="appStore.showAlertMessage = false"
-        >
+      <template>
+        <v-btn color="blue" @click="appStore.showAlertMessage = false">
           Close
         </v-btn>
       </template>
     </v-snackbar>
 
-    
+
   </v-app>
 </template>
 

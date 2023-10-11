@@ -10,14 +10,14 @@ export function checkIfUserIsLoggedIn(promise: Promise<any>) {
                 redirectToLogin();
 
             }, 2000);
-            
+
         } else {
             throw e;
         }
     });
-    
+
 }
 
 export function redirectToLogin() {
-    window.location.href = "/sso/login";
+    window.location.href = "/oauth2/authorization/keycloak";
 }

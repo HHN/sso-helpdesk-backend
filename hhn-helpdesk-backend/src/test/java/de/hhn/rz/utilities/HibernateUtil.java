@@ -35,8 +35,9 @@ public class HibernateUtil {
     public static void main(String[] args) {
         generateSchema();
     }
+
     public static void generateSchema() {
-        Map<String, String> settings = new HashMap<>();
+        Map<String, Object> settings = new HashMap<>();
         settings.put(Environment.URL, "jdbc:h2:mem:schema");
 
         StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(settings).build();
