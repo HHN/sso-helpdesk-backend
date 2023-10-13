@@ -19,8 +19,8 @@ import de.hhn.rz.AbstractService;
 import de.hhn.rz.db.AuditLogRepository;
 import de.hhn.rz.db.entities.AuditAction;
 import de.hhn.rz.db.entities.AuditLogEntry;
+import jakarta.servlet.ServletRequest;
 import org.apache.commons.lang3.ArrayUtils;
-import org.keycloak.KeycloakPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
@@ -29,6 +29,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class AuditLogService extends AbstractService {
@@ -48,26 +49,21 @@ public class AuditLogService extends AbstractService {
 
         ale.setParams(Arrays.toString(params));
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof OidcUser oi){
+        if (principal instanceof OidcUser oi) {
             ale.setActor(oi.getPreferredUsername());
-        }
-        else {
+        } else {
             ale.setActor(principal.toString());
         }
         auditLogRepository.save(ale);
     }
 
     private String getPrincipalIp() {
-
         final Object o = RequestContextHolder.currentRequestAttributes();
-
+        Optional<String> remoteHost = Optional.empty();
         if (o instanceof ServletRequestAttributes requestAttributes) {
-            final String header = requestAttributes.getRequest().getHeader("X-Forwarded-For");
-            if (header != null && !header.isBlank()) {
-                return header;
-            }
+            remoteHost = Optional.of(requestAttributes.getRequest()).map(ServletRequest::getRemoteHost);
         }
-        return "N/A";
+        return remoteHost.orElse("N/A");
     }
 
 }
