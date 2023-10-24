@@ -20,16 +20,22 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.servlet.ConditionalOnMissingFilterBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
+import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -61,6 +67,8 @@ import java.util.stream.Collectors;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
+
     @Bean
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
         return new RegisterSessionAuthenticationStrategy(buildSessionRegistry());
@@ -84,6 +92,8 @@ public class SecurityConfiguration {
                     var realmAccess = userInfo.getClaimAsMap("realm_access");
                     var roles = (Collection<String>) realmAccess.get("roles");
                     mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
+                } else {
+                    logger.warn("User '{}' does not have a claim 'realm_access'", oidcUserAuthority.getUserInfo().getNickName());
                 }
             } else if (authority instanceof OAuth2UserAuthority oAuth2UserAuthority) {
                 Map<String, Object> userAttributes = oAuth2UserAuthority.getAttributes();
@@ -92,9 +102,13 @@ public class SecurityConfiguration {
                     var realmAccess = (Map<String, Object>) userAttributes.get("realm_access");
                     var roles = (Collection<String>) realmAccess.get("roles");
                     mappedAuthorities.addAll(generateAuthoritiesFromClaim(roles));
+                } else {
+                    logger.warn("Given user does not have a claim 'realm_access'");
                 }
             } else {
-                throw new RuntimeException(String.format("Unknown authority of type %s", authority.getClass().getName()));
+                final String msg = String.format("Unknown authority of type %s", authority.getClass().getName());
+                logger.warn(msg);
+                throw new RuntimeException(msg);
             }
 
             return mappedAuthorities;
@@ -102,6 +116,9 @@ public class SecurityConfiguration {
     }
 
     private Collection<GrantedAuthority> generateAuthoritiesFromClaim(Collection<String> roles) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Assigned roles: {}", roles);
+        }
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
@@ -120,6 +137,7 @@ public class SecurityConfiguration {
         http.csrf((csrf) -> csrf.csrfTokenRepository(tokenRepository).csrfTokenRequestHandler(requestHandler))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
 
+        http.getSharedObject(AuthenticationManagerBuilder.class).authenticationEventPublisher(new LoggableAuthenticationEventPublisher());
         http.addFilterAfter(new HelpdeskAuthorizationFilter(), CsrfCookieFilter.class);
         return http.build();
     }
@@ -159,17 +177,34 @@ public class SecurityConfiguration {
             final Authentication authentication = this.securityContextHolderStrategy.getContext().getAuthentication();
 
             //user did successfully authenticate with Keycloak, let's check for required helpdesk role.
-            if(authentication != null) {
+            if (authentication != null) {
                 Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-                if(authorities != null) {
+                if (authorities != null) {
                     final GrantedAuthority ga = Role.HHN_HELPDESK_ADMIN.asGrantedAuthority();
-                    if(!authorities.contains(ga)) {
+                    if (!authorities.contains(ga)) {
                         response.addHeader("helpdesk-missing-role", "The user doesn't has the required role to access helpdesk.");
                     }
                 }
             }
 
             chain.doFilter(request, response);
+        }
+    }
+
+    /**
+     * The default {@link DefaultAuthenticationEventPublisher} does not log an {@link AuthenticationException} if no
+     * {@link AbstractAuthenticationEvent} exists for the given exception type.
+     * However, in certain circumstances it is required to see some more log output. For example, the system running this
+     * application has a time difference to the system hosting keycloak.
+     */
+    private static final class LoggableAuthenticationEventPublisher extends DefaultAuthenticationEventPublisher {
+
+        public void publishAuthenticationFailure(AuthenticationException exception, Authentication authentication) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Authentication failed. See stacktrace for more information.");
+                logger.debug(exception.getLocalizedMessage(), exception);
+            }
+            super.publishAuthenticationFailure(exception, authentication);
         }
     }
 }
