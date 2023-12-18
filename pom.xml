@@ -36,7 +36,7 @@
     <properties>
         <copyright.year>2023</copyright.year>
 
-        <keycloak.version>23.0.1</keycloak.version>
+        <keycloak.version>23.0.3</keycloak.version>
 
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
