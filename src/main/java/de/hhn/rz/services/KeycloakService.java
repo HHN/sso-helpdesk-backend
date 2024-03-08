@@ -62,7 +62,7 @@ public class KeycloakService extends AbstractService {
         return Optional.of(new Account(userRepresentation));
     }
 
-    public void resetCredentials(String keycloakId, String seq) {
+    public void resetCredentials(String keycloakId, String seq, boolean resetMfa) {
         checkParameter(keycloakId);
         checkParameter(seq);
 
@@ -72,10 +72,12 @@ public class KeycloakService extends AbstractService {
         }
         auditLogService.audit(AuditAction.RESET_CREDENTIALS, "user=" + u.toRepresentation().getUsername(), "keycloak-id=" + keycloakId, "seq=" + seq);
 
-        // Remove 2FA and any other non password thingy
-        for (CredentialRepresentation cr : u.credentials()) {
-            if (!CredentialRepresentation.PASSWORD.equals(cr.getType())) {
-                u.removeCredential(cr.getId());
+        if (resetMfa) {
+            // Remove 2FA and any other non password thingy
+            for (CredentialRepresentation cr : u.credentials()) {
+                if (!CredentialRepresentation.PASSWORD.equals(cr.getType())) {
+                    u.removeCredential(cr.getId());
+                }
             }
         }
 

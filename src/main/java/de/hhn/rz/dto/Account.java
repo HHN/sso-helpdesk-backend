@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 public record Account(String keycloakId, String id, String username, String firstName, String lastName, String email,
-                      String type, Long accountExpires, List<String> groups, boolean passwordUpdateRequired, boolean mfaSet) {
+                      String type, Long accountExpires, List<String> groups, boolean passwordUpdateRequired, boolean enabled) {
 
     public Account(UserRepresentation ua) {
         this(ua.getId(),
@@ -35,7 +35,7 @@ public record Account(String keycloakId, String id, String username, String firs
                 Optional.ofNullable(ua.getAttributes()).map(o -> o.get("accountExpires")).map((o -> Long.parseLong(o.get(0)))).orElse(-1L),
                 ua.getGroups(),
                 ua.getRequiredActions().contains("UPDATE_PASSWORD"),
-                ua.getCredentials() != null && ua.getCredentials().stream().anyMatch(c -> MfaUtil.isMfa(c.getType()))
+                ua.isEnabled()
         );
     }
 }

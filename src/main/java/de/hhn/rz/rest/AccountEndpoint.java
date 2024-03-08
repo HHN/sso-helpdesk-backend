@@ -85,7 +85,7 @@ public class AccountEndpoint extends AbstractService {
 
         try {
             auditLogService.audit(AuditAction.RESET_CREDENTIALS_TRY, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq());
-            service.resetCredentials(accountReset.id(), accountReset.seq());
+            service.resetCredentials(accountReset.id(), accountReset.seq(), accountReset.resetMfa());
         } catch (Exception e) {
             auditLogService.audit(AuditAction.RESET_CREDENTIALS_FAILED, "keycloak-id=" + accountReset.id(), "seq=" + accountReset.seq(), "ex=" + e.getLocalizedMessage());
             throw e;

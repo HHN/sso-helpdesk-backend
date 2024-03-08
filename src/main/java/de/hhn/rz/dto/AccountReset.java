@@ -15,5 +15,5 @@
  */
 package de.hhn.rz.dto;
 
-public record AccountReset(String id, String seq) {
+public record AccountReset(String id, String seq, boolean resetMfa) {
 }
