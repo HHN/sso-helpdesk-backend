@@ -21,10 +21,13 @@ import de.hhn.rz.dto.Account;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.GroupRepresentation;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -48,6 +51,15 @@ public class KeycloakService extends AbstractService {
             return client.users().searchByAttributes("employeeID:" + searchParameter).stream().map(Account::new).toList();
         }
         return client.users().search(searchParameter, first, max).stream().map(Account::new).toList();
+    }
+
+    public Optional<Account> getAccountDetails(String keycloakId) {
+        UserResource userResource = client.users().get(keycloakId);
+        UserRepresentation userRepresentation = userResource.toRepresentation();
+        List<String> groupNames = client.users().get(keycloakId).groups().stream().map(GroupRepresentation::getPath).toList();
+        userRepresentation.setGroups(groupNames);
+
+        return Optional.of(new Account(userRepresentation));
     }
 
     public void resetCredentials(String keycloakId, String seq) {

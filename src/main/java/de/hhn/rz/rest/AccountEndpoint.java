@@ -27,16 +27,10 @@ import de.hhn.rz.services.AuditLogService;
 import de.hhn.rz.services.KeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
@@ -75,6 +69,12 @@ public class AccountEndpoint extends AbstractService {
         auditLogService.audit(AuditAction.SEARCH, "first=" + first, "max=" + max, "q=" + q);
         return service.findAccounts(first, max, q.trim());
 
+    }
+
+    @GetMapping("user/{id}")
+    public Optional<Account> get(@PathVariable("id") String keycloakId) {
+        checkParameter(keycloakId);
+        return service.getAccountDetails(keycloakId);
     }
 
     @PostMapping("reset")

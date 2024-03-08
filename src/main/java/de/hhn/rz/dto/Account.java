@@ -15,13 +15,14 @@
  */
 package de.hhn.rz.dto;
 
+import de.hhn.rz.MfaUtil;
 import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.List;
 import java.util.Optional;
 
 public record Account(String keycloakId, String id, String username, String firstName, String lastName, String email,
-                      String type) {
+                      String type, Long accountExpires, List<String> groups, boolean passwordUpdateRequired, boolean mfaSet) {
 
     public Account(UserRepresentation ua) {
         this(ua.getId(),
@@ -30,6 +31,11 @@ public record Account(String keycloakId, String id, String username, String firs
                 ua.getFirstName(),
                 ua.getLastName(),
                 ua.getEmail(),
-                Optional.ofNullable(ua.getAttributes()).map(o -> o.get("type")).orElse(List.of("N/A")).get(0));
+                Optional.ofNullable(ua.getAttributes()).map(o -> o.get("type")).orElse(List.of("N/A")).get(0),
+                Optional.ofNullable(ua.getAttributes()).map(o -> o.get("accountExpires")).map((o -> Long.parseLong(o.get(0)))).orElse(-1L),
+                ua.getGroups(),
+                ua.getRequiredActions().contains("UPDATE_PASSWORD"),
+                ua.getCredentials() != null && ua.getCredentials().stream().anyMatch(c -> MfaUtil.isMfa(c.getType()))
+        );
     }
 }
