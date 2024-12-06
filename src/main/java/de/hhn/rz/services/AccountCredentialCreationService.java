@@ -27,12 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class AccountCredentialCreationService extends AbstractService {

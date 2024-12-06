@@ -26,7 +26,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.security.SecureRandom;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(classes = {Encryptor.class, Decryptor.class, XslTransformerService.class, QRGenerator.class, FopFactoryProducer.class})
 public class XslTransformerTest {
