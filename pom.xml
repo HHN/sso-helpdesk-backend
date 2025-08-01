@@ -42,7 +42,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <commons-lang3.version>3.17.0</commons-lang3.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <fop.version>2.10</fop.version>
         <qrgen.version>3.0.1</qrgen.version>
         <!-- pdfbox needs to be compatible with ${fop.version}. Don't upgrade pdfbox to 3.x without checking fop first -->
