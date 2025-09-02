@@ -49,7 +49,7 @@
         <pdfbox.version>2.0.34</pdfbox.version>
         <batik.version>1.19</batik.version>
         <!-- this is needed for schema generation and needs to be aligned with hibernate used by spring boot -->
-        <hibernate.version>7.0.8.Final</hibernate.version>
+        <hibernate.version>7.1.0.Final</hibernate.version>
     </properties>
 
     <repositories>
