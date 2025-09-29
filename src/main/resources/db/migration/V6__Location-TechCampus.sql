@@ -1,0 +1,1 @@
+update location set label='HN TechCampus' where id='1';
