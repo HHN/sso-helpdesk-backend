@@ -19,7 +19,6 @@ import de.hhn.rz.AbstractService;
 import de.hhn.rz.db.entities.AuditAction;
 import de.hhn.rz.dto.UserInfo;
 import de.hhn.rz.services.AuditLogService;
-import org.keycloak.KeycloakPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

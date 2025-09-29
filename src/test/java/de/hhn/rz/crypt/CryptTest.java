@@ -21,7 +21,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.security.SecureRandom;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(classes = {Decryptor.class, Encryptor.class})
 public class CryptTest {

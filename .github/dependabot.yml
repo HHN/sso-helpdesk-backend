@@ -2,5 +2,13 @@ version: 2
 updates:
   - package-ecosystem: maven
     directory: "/"
+    open-pull-requests-limit: 50
     schedule:
-      interval: weekly
+      interval: monthly
+    ignore:
+      - dependency-name: "org.apache.pdfbox:*"
+        update-types: [ "version-update:semver-major"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
