@@ -53,6 +53,10 @@
     </properties>
 
     <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
         <!-- needed to retrieve QR lib -->
         <repository>
             <id>jitpack.io</id>
