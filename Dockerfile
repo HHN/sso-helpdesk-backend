@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM openjdk:17-jdk as build
+FROM eclipse-temurin:17-jdk AS build
 WORKDIR /workspace/app
 
 COPY mvnw .
